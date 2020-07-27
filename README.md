@@ -6,7 +6,7 @@ Benefits:
 - No need to "hide" you configuration files from code repos etc.
 - The only things to keep secret is one key per environment.
 - No need to use 3rd party secret stores like GCP KMS, Vault or something
-- Puse NodeJS solution, no dependencies
+- Pure NodeJS solution, no dependencies
 - Uses standard environment variable technique to inject the only secret you need
 
 The cipher used is AES-256-CBC.
