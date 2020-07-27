@@ -27,7 +27,7 @@ Configuration file with encrypted values:
 Your code:
 
 ```js
-const conf = require('secure-config');
+const conf = require('@tsmx/secure-config');
 
 function MyFunc() {
     let dbHost = conf.database.host;
