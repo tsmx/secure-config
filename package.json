@@ -1,0 +1,26 @@
+{
+  "name": "secure-config",
+  "version": "1.0.0",
+  "description": "Handling multi-environment configurations with encrypted secrets. The decryption key is injected via environment variable.",
+  "main": "secure-config.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "configuration",
+    "encryption",
+    "crypto",
+    "credentials",
+    "secret",
+    "key injection",
+    "multi",
+    "environment",
+    "JSON",
+    "NODE_ENV"
+  ],
+  "author": "tsmx",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}

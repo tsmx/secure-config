@@ -1,0 +1,14 @@
+{
+    "database": {
+        "host": "127.0.0.1",
+        "user": "dbuser",
+        "password": "dbpass"
+    },
+    "filestorage": {
+        "type": "local",
+        "params": {
+            "folder": "/tmp/storage",
+            "storagepass": "storagepass"
+        }
+    }
+}

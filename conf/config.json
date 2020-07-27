@@ -1,0 +1,14 @@
+{
+    "database": {
+        "host": "127.0.0.1",
+        "user": "ENCRYPTED|9edcd5a6bc5ed6868e6c3340019f5d3a|bc1857aab6981b903fab75ccb5c5244b",
+        "password": "ENCRYPTED|45aa7c597b470d24c4552ff9b7a5b919|30c26f4fb8e63f2986b1a605028b5dd8"
+    },
+    "filestorage": {
+        "type": "local",
+        "params": {
+            "folder": "/tmp/storage",
+            "storagepass": "ENCRYPTED|6e4cf6d21bd9cfcfb124efbc100250b2|9ba4f2727eedbc428647422947555ca1"
+        }
+    }
+}
