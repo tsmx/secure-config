@@ -1,10 +1,14 @@
 {
   "name": "secure-config",
   "version": "1.0.0",
-  "description": "Handling multi-environment configurations with encrypted secrets. The decryption key is injected via environment variable.",
+  "description": "Handling multi-environment JSONc onfigurations with encrypted secrets. The decryption key is injected via environment variable. Minimalistic, zero deps.",
   "main": "secure-config.js",
   "scripts": {
     "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsmx/secure-config.git"
   },
   "keywords": [
     "configuration",
