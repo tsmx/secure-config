@@ -1,6 +1,6 @@
 # [**secure-config**](https://github.com/tsmx/secure-config)
 
-Handling multi-environment configurations with encrypted secrets. The decryption key is injected via environment variable.
+Handling multi-environment configurations with encrypted secrets.
 
 Benefits:
 - No need to "hide" you configuration files from code repos etc.
