@@ -37,11 +37,10 @@ function MyFunc() {
     let dbPass = conf.database.pass;
     //...
 }
-});
 ```
 ## Injecting the decryption key
 
-The key for decrypting the encrypted values is derived from an environment varibale named `CONFIG_ENCRYPTION_KEY`. You can set this variable 
+The key for decrypting the encrypted values is derived from an environment variable named `CONFIG_ENCRYPTION_KEY`. You can set this variable 
 whatever way is most suitable, e.g.
 - set/export in the command line or in your bash pofile
   ```
