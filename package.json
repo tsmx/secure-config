@@ -4,7 +4,8 @@
   "description": "Handling multi-environment JSON configurations with encrypted secrets. Minimalistic, zero deps.",
   "main": "secure-config.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

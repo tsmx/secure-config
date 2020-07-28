@@ -1,10 +1,12 @@
 # [**secure-config**](https://github.com/tsmx/secure-config)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 Handling multi-environment configurations with encrypted secrets.
 
 Benefits:
-- No need to "hide" you configuration files from code repos etc.
-- The only things to keep secret is one key per environment.
+- No need to "hide" your configuration files from code repos etc.
+- The only thing to be kept secret is one key per environment.
 - No need to use 3rd party secret stores like GCP KMS, Vault or something
 - Pure NodeJS solution, no dependencies
 - Uses standard environment variable technique to inject the only secret you need
@@ -81,25 +83,33 @@ function encrypt(text) {
 }
 ```
 
-The generated encrypted entry always has the form: `ENCRYPTED | Cipher Initialisation Vector | Encrypted Data`.
+The generated encrypted entry always has the form: `ENCRYPTED | Cipher Initialization Vector | Encrypted Data`. The prefix `ENCRYPTED` is used to identify configuration values that must be decrypted.
 
 ## Configuration file name and directory convention
 
 You can have multiple configuration files for different environments or stages. They are distinguished by the environment variable `NODE_ENV`. The basic configuration file name is `config.json` if this variable is not present. If it is present, a configuration file with the name `config-[NODE_ENV].json`
 is used. An exception will be thrown if no configuration file is found.
 
-All configuration files must be located in a `/conf` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf`).  
+All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
 
-Examples:
+Example structure:
+
 - Development stage
   - `NODE_ENV`: not set
   - Configuration file: `conf/config.json`
 - Prodcution stage
   - `NODE_ENV`: `production`
   - Configuration file: `conf/config-production.json`
-- Test stage
+- Test stage, e.g. for Jest
   - `NODE_ENV`: `test`
   - Configuration file: `conf/config-test.json`
+
+```
+conf/
+├── config.json
+├── config-production.json
+└── config-test.json
+```
 
 ## Test
 

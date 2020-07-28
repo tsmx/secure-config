@@ -10,5 +10,10 @@
             "folder": "/tmp/storage",
             "storagepass": "ENCRYPTED|6e4cf6d21bd9cfcfb124efbc100250b2|9ba4f2727eedbc428647422947555ca1"
         }
-    }
+    },
+    "testarray": [
+        "one",
+        "two",
+        "three"
+    ]
 }

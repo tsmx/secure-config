@@ -3,16 +3,12 @@ const path = require('path');
 const fs = require('fs');
 const algorithm = 'aes-256-cbc';
 
-function SecureConfigException(message) {
-    this.message = message;
-}
-
 var key = null;
 if (!process.env.CONFIG_ENCRYPTION_KEY) {
-    throw new SecureConfigException('Environment variable CONFIG_ENCRYPTION_KEY not set.');
+    throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
 }
 else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length !== 32) {
-    throw new SecureConfigException('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+    throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
 }
 key = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
 
@@ -52,7 +48,7 @@ else {
     confPath = path.join(process.cwd(), 'conf', 'config.json');
 }
 if (!fs.existsSync(confPath)) {
-    throw new SecureConfigException('Configuration file for NODE_ENV ' + process.env.NODE_ENV + ' does not exist.');
+    throw new Error('Configuration file for NODE_ENV ' + process.env.NODE_ENV + ' does not exist.');
 }
 
 var conf = require(confPath);

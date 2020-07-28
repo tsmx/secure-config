@@ -2,6 +2,8 @@ describe('Config test suite', () => {
 
     beforeEach(() => {
         jest.resetModules();
+        delete process.env['CONFIG_ENCRYPTION_KEY'];
+        delete process.env['NODE_ENV'];
     });
 
     it('tests a successful production configuration retrival', async (done) => {
@@ -27,6 +29,9 @@ describe('Config test suite', () => {
         expect(conf.filestorage.type).toBe('local');
         expect(conf.filestorage.params.folder).toBe('/tmp/storage');
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword');
+        expect(conf.testarray).toBeDefined();
+        expect(Array.isArray(conf.testarray)).toBeTruthy();
+        expect(conf.testarray.length).toBe(3);
         done();
     });
 
@@ -44,16 +49,22 @@ describe('Config test suite', () => {
     });
 
     it('tests a failed configuration retrival because of a missing encryption key', async (done) => {
-        delete process.env['CONFIG_ENCRYPTION_KEY'];
         process.env['NODE_ENV'] = '';
         expect(() => { const conf = require('../secure-config'); }).toThrow('Environment variable CONFIG_ENCRYPTION_KEY not set.');
         done();
     });
 
-    it('tests a failed configuration retrival because of a missing encryption key', async (done) => {
+    it('tests a failed configuration retrival because of an encryption key which length is not 32 bytes', async (done) => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjkly';
         process.env['NODE_ENV'] = '';
         expect(() => { const conf = require('../secure-config'); }).toThrow('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+        done();
+    });
+
+    it('tests a failed configuration retrival because of a not existing configuration file', async (done) => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+        process.env['NODE_ENV'] = 'UNKNOWN';
+        expect(() => { const conf = require('../secure-config'); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
         done();
     });
 });
