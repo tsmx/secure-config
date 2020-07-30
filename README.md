@@ -15,26 +15,33 @@ The cipher used is AES-256-CBC.
 
 ## Usage
 
-Configuration file with encrypted values:
+1. Encrypt your secret configuration values, e.g. by using [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool). For more details please see [generating encrypted values](#generating-encrypted-entries).
+```bash
+[tsmx@localhost ]$ secure-config-tool create --secret MySecretDbUser
+ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11
+[tsmx@localhost ]$ secure-config-tool create --secret MySecretDbPass
+ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35
+```
+
+2. Copy & Paste the encrypted values to your JSON configuration file
 ```json
 {
     "database": {
         "host": "127.0.0.1",
-        "user": "ENCRYPTED|9edcd5a6bc5ed6868e6c3340019f5d3a|bc1857aab6981b903fab75ccb5c5244b",
-        "pass": "ENCRYPTED|45aa7c597b470d24c4552ff9b7a5b919|30c26f4fb8e63f2986b1a605028b5dd8"
+        "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+        "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
     }
 }
 ```
 
-Your code:
-
+3. Use your configuration in the code
 ```js
 const conf = require('@tsmx/secure-config');
 
 function MyFunc() {
     let dbHost = conf.database.host;
-    let dbUser = conf.database.user;
-    let dbPass = conf.database.pass;
+    let dbUser = conf.database.user; // = 'MySecretDbUser'
+    let dbPass = conf.database.pass; // = 'MySecretDbPass'
     //...
 }
 ```
@@ -61,28 +68,41 @@ whatever way is most suitable, e.g.
   ```
 - etc.
 
-The key length must be 32 bytes!
+The key length must be 32 bytes! Different keys for each configuration environment are strongly recommended.
 
 ## Generating encrypted entries
 
-Simply use `crypto` functions from NodeJS with the follwing snippet to create the encrypted entries or use the very basic [secure-config-tool](https://github.com/tsmx/secure-config-tool) for that.
+### Option 1: secure-config-tool
+
+For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate the encrypted entries.
+
+### Option 2: NodeJS crypto functions 
+
+You can simply use `crypto` functions from NodeJS with the follwing snippet to create the encrypted entries:
 
 ```js
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
-const iv = crypto.randomBytes(16);
 
-var key = Buffer.from('YOUR_KEY_HERE');
-
-function encrypt(text) {
+function encrypt(value) {
+    let iv = crypto.randomBytes(16);
+    let key = Buffer.from('YOUR_KEY_HERE');
     let cipher = crypto.createCipheriv(algorithm, key, iv);
-    let encrypted = cipher.update(text);
+    let encrypted = cipher.update(value);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return 'ENCRYPTED|' + iv.toString('hex') + '|' + encrypted.toString('hex');
 }
 ```
 
-The generated encrypted entry always has the form: `ENCRYPTED | Cipher Initialization Vector | Encrypted Data`. The prefix `ENCRYPTED` is used to identify configuration values that must be decrypted.
+### Remarks
+
+The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`. 
+
+Part | Description
+-----|------------
+`ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted.
+`IV` | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value.
+`DATA` | The AES-256-CBC encrypted value. Hexadecimal value.
 
 ## Configuration file name and directory convention
 
@@ -91,7 +111,7 @@ is used. An exception will be thrown if no configuration file is found.
 
 All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
 
-Example structure:
+### Example structure
 
 - Development stage
   - `NODE_ENV`: not set
