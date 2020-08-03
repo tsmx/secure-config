@@ -16,35 +16,35 @@ The cipher used is AES-256-CBC.
 ## Usage
 
 1. Encrypt your secret configuration values, e.g. by using [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool). For more details please see [generating encrypted values](#generating-encrypted-entries).
-```bash
-[tsmx@localhost ]$ secure-config-tool create --secret MySecretDbUser
-ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11
-[tsmx@localhost ]$ secure-config-tool create --secret MySecretDbPass
-ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35
-```
+    ```bash
+    [tsmx@localhost ]$ secure-config-tool create --secret MySecretDbUser
+    ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11
+    [tsmx@localhost ]$ secure-config-tool create --secret MySecretDbPass
+    ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35
+    ```
 
 2. Copy & Paste the encrypted values to your JSON configuration file
-```json
-{
-    "database": {
-        "host": "127.0.0.1",
-        "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
-        "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+    ```json
+    {
+        "database": {
+            "host": "127.0.0.1",
+            "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+            "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+        }
     }
-}
-```
+    ```
 
 3. Use your configuration in the code
-```js
-const conf = require('@tsmx/secure-config');
+    ```js
+    const conf = require('@tsmx/secure-config');
 
-function MyFunc() {
-    let dbHost = conf.database.host;
-    let dbUser = conf.database.user; // = 'MySecretDbUser'
-    let dbPass = conf.database.pass; // = 'MySecretDbPass'
-    //...
-}
-```
+    function MyFunc() {
+        let dbHost = conf.database.host;
+        let dbUser = conf.database.user; // = 'MySecretDbUser'
+        let dbPass = conf.database.pass; // = 'MySecretDbPass'
+        //...
+    }
+    ```
 ## Injecting the decryption key
 
 The key for decrypting the encrypted values is derived from an environment variable named `CONFIG_ENCRYPTION_KEY`. You can set this variable 

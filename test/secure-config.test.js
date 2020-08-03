@@ -1,4 +1,4 @@
-describe('Config test suite', () => {
+describe('secure-config test suite', () => {
 
     beforeEach(() => {
         jest.resetModules();

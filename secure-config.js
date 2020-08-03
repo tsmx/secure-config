@@ -3,16 +3,17 @@ const path = require('path');
 const fs = require('fs');
 const algorithm = 'aes-256-cbc';
 
-var key = null;
-if (!process.env.CONFIG_ENCRYPTION_KEY) {
-    throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
+function getKey() {
+    if (!process.env.CONFIG_ENCRYPTION_KEY) {
+        throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
+    }
+    else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length !== 32) {
+        throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+    }
+    return Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
 }
-else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length !== 32) {
-    throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
-}
-key = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
 
-function decrypt(text) {
+function decryptValue(text, key) {
     let input = text.split('|');
     input.shift();
     let iv = Buffer.from(input[0], 'hex');
@@ -23,35 +24,39 @@ function decrypt(text) {
     return decrypted.toString();
 }
 
-function decryptConfig(conf) {
+function decryptConfig(conf, key) {
     for (var prop in conf) {
         if (!Object.prototype.hasOwnProperty.call(conf, prop)) continue;
         if (Array.isArray(conf[prop])) {
             continue;
         }
         if (typeof conf[prop] == 'object') {
-            decryptConfig(conf[prop]);
+            decryptConfig(conf[prop], key);
         } else if (conf[prop] !== null) {
             if (conf[prop].toString().startsWith('ENCRYPTED|')) {
-                conf[prop] = decrypt(conf[prop].toString());
+                conf[prop] = decryptValue(conf[prop].toString(), key);
             }
         }
     }
     return conf;
 }
 
-var confPath = null;
-if (process.env.NODE_ENV) {
-    confPath = path.join(process.cwd(), 'conf', 'config-' + process.env.NODE_ENV + '.json');
-}
-else {
-    confPath = path.join(process.cwd(), 'conf', 'config.json');
-}
-if (!fs.existsSync(confPath)) {
-    throw new Error('Configuration file for NODE_ENV ' + process.env.NODE_ENV + ' does not exist.');
+function getConfigPath() {
+    let confPath = null;
+    if (process.env.NODE_ENV) {
+        confPath = path.join(process.cwd(), 'conf', 'config-' + process.env.NODE_ENV + '.json');
+    }
+    else {
+        confPath = path.join(process.cwd(), 'conf', 'config.json');
+    }
+    if (!fs.existsSync(confPath)) {
+        throw new Error('Configuration file for NODE_ENV ' + process.env.NODE_ENV + ' does not exist.');
+    }
+    return confPath;
 }
 
-var conf = require(confPath);
-decryptConfig(conf);
+var conf = require(getConfigPath());
+const key = getKey();
+decryptConfig(conf, key);
 
 module.exports = conf;
