@@ -124,10 +124,13 @@ All configuration files must be located in a `conf/` directory of the current ru
   - Configuration file: `conf/config-test.json`
 
 ```
-conf/
-├── config.json
-├── config-production.json
-└── config-test.json
+path-to-your-app/
+├── conf/
+│   ├── config.json
+│   ├── config-production.json
+│   └── config-test.json
+├── app.js
+└── package.json
 ```
 
 ## Test
