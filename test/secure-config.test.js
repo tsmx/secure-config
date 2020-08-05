@@ -32,6 +32,7 @@ describe('secure-config test suite', () => {
         expect(conf.testarray).toBeDefined();
         expect(Array.isArray(conf.testarray)).toBeTruthy();
         expect(conf.testarray.length).toBe(3);
+        expect(conf.nullvalue).toBe(null);
         done();
     });
 
