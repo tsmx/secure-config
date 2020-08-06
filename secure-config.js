@@ -4,13 +4,21 @@ const fs = require('fs');
 const algorithm = 'aes-256-cbc';
 
 function getKey() {
+    const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
+    let result = null;
     if (!process.env.CONFIG_ENCRYPTION_KEY) {
         throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
     }
-    else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length !== 32) {
+    else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length == 32) {
+        result = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
+    }
+    else if (hexReg.test(process.env.CONFIG_ENCRYPTION_KEY)) {
+        result = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY, 'hex');
+    }
+    else {
         throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
     }
-    return Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
+    return result;
 }
 
 function decryptValue(text, key) {

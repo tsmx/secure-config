@@ -68,7 +68,17 @@ whatever way is most suitable, e.g.
   ```
 - etc.
 
-The key length must be 32 bytes! Different keys for each configuration environment are strongly recommended.
+The key length must be 32 bytes! The value set in `CONFIG_ENCRYPTION_KEY` has to be:
+- a string of 32 characters length, or
+- a hexadecimal value of 64 characters length (= 32 bytes)
+
+Otherwise an error will be thrown.
+
+Examples of valid key strings:
+- 32 byte string: `MySecretConfigurationKey-123$%&/`
+- 32 byte hex value: `9af7d400be4705147dc724db25bfd2513aa11d6013d7bf7bdb2bfe050593bd0f`
+
+Different keys for each configuration environment are strongly recommended.
 
 ## Generating encrypted entries
 
@@ -78,7 +88,7 @@ For better convenience I provided a very basic [secure-config-tool](https://www.
 
 ### Option 2: NodeJS crypto functions 
 
-You can simply use `crypto` functions from NodeJS with the follwing snippet to create the encrypted entries:
+You can simply use `crypto` functions from NodeJS with the following snippet to create the encrypted entries:
 
 ```js
 const crypto = require('crypto');

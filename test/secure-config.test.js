@@ -19,6 +19,19 @@ describe('secure-config test suite', () => {
         done();
     });
 
+    it('tests a successful configuration retrival with a hexadecimal key', async (done) => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = '9af7d400be4705147dc724db25bfd2513aa11d6013d7bf7bdb2bfe050593bd0f';
+        process.env['NODE_ENV'] = 'hex';
+        const conf = require('../secure-config');
+        expect(conf.database.host).toBe('db.prod.com');
+        expect(conf.database.user).toBe('SecretUser-Hex');
+        expect(conf.database.password).toBe('SecretPassword-Hex');
+        expect(conf.filestorage.type).toBe('local');
+        expect(conf.filestorage.params.folder).toBe('/tmp/storage');
+        expect(conf.filestorage.params.storagepass).toBe('StoragePassword-Hex');
+        done();
+    });
+
     it('tests a successful development configuration retrival', async (done) => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = '';

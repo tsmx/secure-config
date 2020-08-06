@@ -1,0 +1,14 @@
+{
+    "database": {
+        "host": "db.prod.com",
+        "user": "ENCRYPTED|e1b2a45eb5a0eb322e0a046beaf1ad41|d19523de57a4d1b9bcab541ebfdc19c3",
+        "password": "ENCRYPTED|f927e2fb32e6600e9be2f4106b999a59|ee003ae28301cc5dbdecac70732121d72edc7bdd564c95281fcf0ea142157571"
+    },
+    "filestorage": {
+        "type": "local",
+        "params": {
+            "folder": "/tmp/storage",
+            "storagepass": "ENCRYPTED|e62c43bcf8a4007a971912149284a5c9|f373db19486354e16deefd7550049fe32c9c06866b8ef345da4a7bcb9a8d3c33"
+        }
+    }
+}
