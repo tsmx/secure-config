@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test-coverage": "jest --coverage"
+    "test-coverage": "jest --coverage",
+    "coveralls": "jest --coverage && coveralls < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   "author": "tsmx",
   "license": "MIT",
   "devDependencies": {
+    "coveralls": "^3.1.0",
     "jest": "^26.1.0"
   }
 }
