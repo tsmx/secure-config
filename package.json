@@ -1,6 +1,6 @@
 {
   "name": "@tsmx/secure-config",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Handling multi-environment JSON configurations with encrypted secrets. Minimalistic, zero deps.",
   "main": "secure-config.js",
   "engines": {
