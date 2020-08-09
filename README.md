@@ -43,7 +43,7 @@ The cipher used is AES-256-CBC.
     const conf = require('@tsmx/secure-config');
 
     function MyFunc() {
-        let dbHost = conf.database.host;
+        let dbHost = conf.database.host; // = '127.0.0.1'
         let dbUser = conf.database.user; // = 'MySecretDbUser'
         let dbPass = conf.database.pass; // = 'MySecretDbPass'
         //...
@@ -69,6 +69,14 @@ whatever way is most suitable, e.g.
   ```yaml
   env_variables:
     CONFIG_ENCRYPTION_KEY: "0123456789qwertzuiopasdfghjklyxc"
+  ```
+- for testing with [Jest](https://jestjs.io/) I recommend to create a test key and set it globally for all tests in the `jest.config.js`, e.g.
+  ```javascript
+  process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+
+  module.exports = {
+      testEnvironment: 'node'
+  };
   ```
 - etc.
 
