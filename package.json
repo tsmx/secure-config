@@ -31,7 +31,7 @@
     "NODE_ENV",
     "AES"
   ],
-  "author": "tsmx",
+  "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^3.1.0",
