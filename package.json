@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/tsmx/secure-config.git"
   },
+  "homepage": "https://tsmx.net/secure-config/",
   "keywords": [
     "configuration",
     "config",
