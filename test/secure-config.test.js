@@ -81,4 +81,11 @@ describe('secure-config test suite', () => {
         expect(() => { const conf = require('../secure-config'); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
         done();
     });
+
+    it('tests a failed configuration retrival because of a wrong key', async (done) => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklXXX';
+        process.env['NODE_ENV'] = 'production';
+        expect(() => { const conf = require('../secure-config'); }).toThrow();
+        done();
+    });
 });
