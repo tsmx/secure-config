@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![npm (scoped)](https://img.shields.io/npm/v/@tsmx/secure-config)
 ![node-current (scoped)](https://img.shields.io/node/v/@tsmx/secure-config)
-[![Build Status](https://travis-ci.org/tsmx/secure-config.svg?branch=master)](https://travis-ci.org/tsmx/secure-config)
+[![Build Status](https://travis-ci.com/tsmx/secure-config.svg?branch=master)](https://travis-ci.org/tsmx/secure-config)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
 Handling multi-environment configurations with encrypted secrets.
