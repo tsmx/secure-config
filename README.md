@@ -15,7 +15,7 @@ Benefits:
 - Pure NodeJS solution, no dependencies
 - Uses standard environment variable technique to inject the only secret you need
 
-The cipher used is AES-256-CBC.
+The cipher used is AES-256-CBC. To get all information please also check out the [full documentation](https://tsmx.net/secure-config/).
 
 ## Usage
 
@@ -49,6 +49,9 @@ The cipher used is AES-256-CBC.
         //...
     }
     ```
+
+A fully working [example project](https://github.com/tsmx/secure-config-test) is also available on GitHub. 
+
 ## Injecting the decryption key
 
 The key for decrypting the encrypted values is derived from an environment variable named `CONFIG_ENCRYPTION_KEY`. You can set this variable 
@@ -79,6 +82,8 @@ whatever way is most suitable, e.g.
   };
   ```
 - etc.
+
+More examples are available in the [full documentation](https://tsmx.net/secure-config/).
 
 The key length must be 32 bytes! The value set in `CONFIG_ENCRYPTION_KEY` has to be:
 - a string of 32 characters length, or
