@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.com/tsmx/secure-config.svg?branch=master)](https://travis-ci.org/tsmx/secure-config)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-Handling multi-environment configurations with encrypted secrets.
+> Handling multi-environment configurations with encrypted secrets.
 
 Benefits:
 - No need to "hide" your configuration files from code repos etc.

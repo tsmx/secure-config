@@ -56,6 +56,7 @@ describe('secure-config test suite', () => {
         expect(conf.database.host).toBe('127.0.0.1');
         expect(conf.database.user).toBe('dbuser');
         expect(conf.database.password).toBe('dbpass');
+        expect(conf.nullVal).toBe(null);
         expect(conf.filestorage.type).toBe('local');
         expect(conf.filestorage.params.folder).toBe('/tmp/storage');
         expect(conf.filestorage.params.storagepass).toBe('storagepass');

@@ -34,16 +34,14 @@ function decryptValue(text, key) {
 
 function decryptConfig(conf, key) {
     for (var prop in conf) {
-        if (!Object.prototype.hasOwnProperty.call(conf, prop)) continue;
+        if (!Object.prototype.hasOwnProperty.call(conf, prop) || conf[prop] == null) continue;
         if (Array.isArray(conf[prop])) {
             continue;
         }
         if (typeof conf[prop] == 'object') {
             decryptConfig(conf[prop], key);
-        } else if (conf[prop] !== null) {
-            if (conf[prop].toString().startsWith('ENCRYPTED|')) {
-                conf[prop] = decryptValue(conf[prop].toString(), key);
-            }
+        } else if (conf[prop].toString().startsWith('ENCRYPTED|')) {
+            conf[prop] = decryptValue(conf[prop].toString(), key);
         }
     }
     return conf;

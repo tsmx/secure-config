@@ -4,6 +4,7 @@
         "user": "dbuser",
         "password": "dbpass"
     },
+    "nullVal": null,
     "filestorage": {
         "type": "local",
         "params": {
