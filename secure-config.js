@@ -3,8 +3,6 @@ const fs = require('fs');
 const sc = require('@tsmx/string-crypto');
 const jt = require('@tsmx/json-traverse');
 
-const algorithm = 'aes-256-cbc';
-
 function getKey() {
     const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
     let result = null;
