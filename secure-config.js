@@ -1,6 +1,8 @@
-const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
+const sc = require('@tsmx/string-crypto');
+const jt = require('@tsmx/json-traverse');
+
 const algorithm = 'aes-256-cbc';
 
 function getKey() {
@@ -10,10 +12,10 @@ function getKey() {
         throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
     }
     else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length == 32) {
-        result = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY);
+        result = process.env.CONFIG_ENCRYPTION_KEY;
     }
     else if (hexReg.test(process.env.CONFIG_ENCRYPTION_KEY)) {
-        result = Buffer.from(process.env.CONFIG_ENCRYPTION_KEY, 'hex');
+        result = process.env.CONFIG_ENCRYPTION_KEY;
     }
     else {
         throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
@@ -21,29 +23,15 @@ function getKey() {
     return result;
 }
 
-function decryptValue(text, key) {
-    let input = text.split('|');
-    input.shift();
-    let iv = Buffer.from(input[0], 'hex');
-    let encryptedText = Buffer.from(input[1], 'hex');
-    let decipher = crypto.createDecipheriv(algorithm, key, iv);
-    let decrypted = decipher.update(encryptedText);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString();
-}
-
-function decryptConfig(conf, key) {
-    for (var prop in conf) {
-        if (!Object.prototype.hasOwnProperty.call(conf, prop) || conf[prop] == null) continue;
-        if (Array.isArray(conf[prop])) {
-            continue;
+function decryptConfig(conf, confKey) {
+    const callbacks = {
+        processValue: (key, value, level, path, isObjectRoot, isArrayElement, cbSetValue) => {
+            if(!isArrayElement && value && value.toString().startsWith('ENCRYPTED|')) {
+                cbSetValue(sc.decrypt(value.toString().substring(10), { key: confKey }));
+            }
         }
-        if (typeof conf[prop] == 'object') {
-            decryptConfig(conf[prop], key);
-        } else if (conf[prop].toString().startsWith('ENCRYPTED|')) {
-            conf[prop] = decryptValue(conf[prop].toString(), key);
-        }
-    }
+    };
+    jt.traverse(conf, callbacks);
     return conf;
 }
 
@@ -61,8 +49,8 @@ function getConfigPath() {
     return confPath;
 }
 
-var conf = require(getConfigPath());
-const key = getKey();
-decryptConfig(conf, key);
+let conf = require(getConfigPath());
+let confKey = getKey();
+decryptConfig(conf, confKey);
 
 module.exports = conf;
