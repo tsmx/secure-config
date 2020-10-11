@@ -1,4 +1,4 @@
-# [**secure-config**](https://github.com/tsmx/secure-config)
+# [**@tsmx/secure-config**](https://github.com/tsmx/secure-config)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![npm (scoped)](https://img.shields.io/npm/v/@tsmx/secure-config)
