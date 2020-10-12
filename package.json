@@ -36,10 +36,10 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "jest": "^26.1.0"
+    "jest": "^26.5.3"
   },
   "dependencies": {
-    "@tsmx/json-traverse": "^1.0.1",
-    "@tsmx/string-crypto": "^1.0.1"
+    "@tsmx/json-traverse": "^1.0.2",
+    "@tsmx/string-crypto": "^1.0.2"
   }
 }
