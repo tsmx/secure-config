@@ -3,6 +3,8 @@ const fs = require('fs');
 const sc = require('@tsmx/string-crypto');
 const jt = require('@tsmx/json-traverse');
 
+const prefix = 'ENCRYPTED|';
+
 function getKey() {
     const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
     let result = null;
@@ -24,8 +26,8 @@ function getKey() {
 function decryptConfig(conf, confKey) {
     const callbacks = {
         processValue: (key, value, level, path, isObjectRoot, isArrayElement, cbSetValue) => {
-            if(!isArrayElement && value && value.toString().startsWith('ENCRYPTED|')) {
-                cbSetValue(sc.decrypt(value.toString().substring(10), { key: confKey }));
+            if(!isArrayElement && value && value.toString().startsWith(prefix)) {
+                cbSetValue(sc.decrypt(value.toString().substring(prefix.length), { key: confKey }));
             }
         }
     };

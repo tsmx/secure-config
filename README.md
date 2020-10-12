@@ -6,28 +6,11 @@
 [![Build Status](https://travis-ci.com/tsmx/secure-config.svg?branch=master)](https://travis-ci.org/tsmx/secure-config)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-> Handling multi-environment configurations with encrypted secrets.
-
-Benefits:
-- No need to "hide" your configuration files from code repos etc.
-- The only thing to be kept secret is one key per environment.
-- No need to use 3rd party secret stores like GCP KMS, Vault or something
-- Pure NodeJS solution, no dependencies
-- Uses standard environment variable technique to inject the only secret you need
-
-The cipher used is AES-256-CBC. To get all information please also check out the [full documentation](https://tsmx.net/secure-config/).
+> Secure multi-environment configurations with encrypted secrets.
 
 ## Usage
 
-1. Encrypt your secret configuration values, e.g. by using [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool). For more details please see [generating encrypted values](#generating-encrypted-entries).
-    ```bash
-    [tsmx@localhost ]$ secure-config-tool create --secret MySecretDbUser
-    ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11
-    [tsmx@localhost ]$ secure-config-tool create --secret MySecretDbPass
-    ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35
-    ```
-
-2. Copy & Paste the encrypted values to your JSON configuration file
+1. Encrypt sensitive data in your JSON configuration file. For more details please see [generating encrypted values](#generating-encrypted-entries) and [naming conventions](#naming-conventions).
     ```json
     {
         "database": {
@@ -38,7 +21,7 @@ The cipher used is AES-256-CBC. To get all information please also check out the
     }
     ```
 
-3. Use your configuration in the code
+3. Use your configuration in the code.
     ```js
     const conf = require('@tsmx/secure-config');
 
@@ -51,6 +34,8 @@ The cipher used is AES-256-CBC. To get all information please also check out the
     ```
 
 A fully working [example project](https://github.com/tsmx/secure-config-test) is also available on GitHub. 
+
+To get all information please also check out the [full documentation](https://tsmx.net/secure-config/).
 
 ## Injecting the decryption key
 
@@ -131,7 +116,7 @@ Part | Description
 `IV` | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value.
 `DATA` | The AES-256-CBC encrypted value. Hexadecimal value.
 
-## Configuration file name and directory convention
+## Naming conventions
 
 You can have multiple configuration files for different environments or stages. They are distinguished by the environment variable `NODE_ENV`. The basic configuration file name is `config.json` if this variable is not present. If it is present, a configuration file with the name `config-[NODE_ENV].json`
 is used. An exception will be thrown if no configuration file is found.
