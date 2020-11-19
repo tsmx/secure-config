@@ -33,12 +33,11 @@ For more details please see [generating encrypted values](#generating-encrypted-
       //...
     }
     ```
-3. Run your app using the secured configuration. 
+3. Run your app. See below for different [options on how to pass the key](#injecting-the-decryption-key).
    ```bash
    $ export CONFIG_ENCRYPTION_KEY=...
    $ node app.js
    ```
-   See below for different [options on how to pass the key](#injecting-the-decryption-key).
 
 A fully working [example project](https://github.com/tsmx/secure-config-test) is also available on GitHub. 
 
