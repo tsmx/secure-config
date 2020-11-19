@@ -58,6 +58,7 @@ Development | not set | conf/config.json
 Production | `production` | conf/config-production.json
 Test | `test` | conf/config-test.json
 
+Resulting setup:
 ```
 path-to-your-app/
 ├── conf/
