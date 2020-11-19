@@ -10,32 +10,64 @@
 
 ## Usage
 
-1. Encrypt sensitive data in your JSON configuration file. For more details please see [generating encrypted values](#generating-encrypted-entries) and [naming conventions](#naming-conventions).
+1. Encrypt sensitive data in your JSON configuration file. Most easy way to do this is using the [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool).
+For more details please see [generating encrypted values](#generating-encrypted-entries) and [naming conventions](#naming-conventions).
     ```json
     {
-        "database": {
-            "host": "127.0.0.1",
-            "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
-            "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
-        }
+      "database": {
+        "host": "127.0.0.1",
+        "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+        "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+      }
     }
     ```
 
-3. Use your configuration in the code.
+2. Use your configuration in the code.
     ```js
     const conf = require('@tsmx/secure-config');
 
     function MyFunc() {
-        let dbHost = conf.database.host; // = '127.0.0.1'
-        let dbUser = conf.database.user; // = 'MySecretDbUser'
-        let dbPass = conf.database.pass; // = 'MySecretDbPass'
-        //...
+      let dbHost = conf.database.host; // = '127.0.0.1'
+      let dbUser = conf.database.user; // = 'MySecretDbUser'
+      let dbPass = conf.database.pass; // = 'MySecretDbPass'
+      //...
     }
     ```
+3. Run your app using the secured configuration. 
+   ```bash
+   $ export CONFIG_ENCRYPTION_KEY=...
+   $ node app.js
+   ```
+   See below for different [options on how to pass the key](#injecting-the-decryption-key).
 
 A fully working [example project](https://github.com/tsmx/secure-config-test) is also available on GitHub. 
 
 To get all information please also check out the [full documentation](https://tsmx.net/secure-config/).
+
+## Naming conventions
+
+You can have multiple configuration files for different environments or stages. They are distinguished by the environment variable `NODE_ENV`. The basic configuration file name is `config.json` if this variable is not present. If it is present, a configuration file with the name `config-[NODE_ENV].json`
+is used. An exception will be thrown if no configuration file is found.
+
+All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
+
+### Example structure
+
+Stage | Value of `NODE_ENV` | Filename
+------|-------------------|---------
+Development | not set | `conf/config.json`
+Production | `production` | `conf/config-production.json`
+Test | `test` | `conf/config-test.json`
+
+```
+path-to-your-app/
+├── conf/
+│   ├── config.json
+│   ├── config-production.json
+│   └── config-test.json
+├── app.js
+└── package.json
+```
 
 ## Injecting the decryption key
 
@@ -97,12 +129,12 @@ const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
 
 function encrypt(value) {
-    let iv = crypto.randomBytes(16);
-    let key = Buffer.from('YOUR_KEY_HERE');
-    let cipher = crypto.createCipheriv(algorithm, key, iv);
-    let encrypted = cipher.update(value);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return 'ENCRYPTED|' + iv.toString('hex') + '|' + encrypted.toString('hex');
+  let iv = crypto.randomBytes(16);
+  let key = Buffer.from('YOUR_KEY_HERE');
+  let cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encrypted = cipher.update(value);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return 'ENCRYPTED|' + iv.toString('hex') + '|' + encrypted.toString('hex');
 }
 ```
 
@@ -115,35 +147,6 @@ Part | Description
 `ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted.
 `IV` | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value.
 `DATA` | The AES-256-CBC encrypted value. Hexadecimal value.
-
-## Naming conventions
-
-You can have multiple configuration files for different environments or stages. They are distinguished by the environment variable `NODE_ENV`. The basic configuration file name is `config.json` if this variable is not present. If it is present, a configuration file with the name `config-[NODE_ENV].json`
-is used. An exception will be thrown if no configuration file is found.
-
-All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
-
-### Example structure
-
-- Development stage
-  - `NODE_ENV`: not set
-  - Configuration file: `conf/config.json`
-- Prodcution stage
-  - `NODE_ENV`: `production`
-  - Configuration file: `conf/config-production.json`
-- Test stage, e.g. for Jest
-  - `NODE_ENV`: `test`
-  - Configuration file: `conf/config-test.json`
-
-```
-path-to-your-app/
-├── conf/
-│   ├── config.json
-│   ├── config-production.json
-│   └── config-test.json
-├── app.js
-└── package.json
-```
 
 ## Test
 
