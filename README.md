@@ -53,11 +53,11 @@ All configuration files must be located in a `conf/` directory of the current ru
 
 ### Example structure
 
-Stage | Value of `NODE_ENV` | Filename
+Stage | Value of NODE_ENV | Filename
 ------|-------------------|---------
-Development | not set | `conf/config.json`
-Production | `production` | `conf/config-production.json`
-Test | `test` | `conf/config-test.json`
+Development | not set | conf/config.json
+Production | `production` | conf/config-production.json
+Test | `test` | conf/config-test.json
 
 ```
 path-to-your-app/
