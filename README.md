@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![npm (scoped)](https://img.shields.io/npm/v/@tsmx/secure-config)
 ![node-current (scoped)](https://img.shields.io/node/v/@tsmx/secure-config)
-[![Build Status](https://travis-ci.com/tsmx/secure-config.svg?branch=master)](https://travis-ci.org/tsmx/secure-config)
+[![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
 > Secure multi-environment configurations with encrypted secrets.
@@ -52,11 +52,11 @@ All configuration files must be located in a `conf/` directory of the current ru
 
 ### Example structure
 
-Stage | Value of NODE_ENV | Filename
-------|-------------------|---------
-Development | not set | conf/config.json
-Production | `production` | conf/config-production.json
-Test | `test` | conf/config-test.json
+| Stage       | Value of NODE_ENV | Filename                    | 
+|-------------|-------------------|-----------------------------|
+| Development | not set           | conf/config.json            | 
+| Production  | `production`      | conf/config-production.json | 
+| Test        | `test`            | conf/config-test.json       |
 
 Resulting folders/files setup:
 ```
@@ -142,11 +142,11 @@ function encrypt(value) {
 
 The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`. 
 
-Part | Description
------|------------
-`ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted.
-`IV` | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value.
-`DATA` | The AES-256-CBC encrypted value. Hexadecimal value.
+| Part        | Description |
+|-------------|-------------|
+| `ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted. |
+| `IV`        | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value. |
+| `DATA`      | The AES-256-CBC encrypted value. Hexadecimal value. |
 
 ## Test
 
