@@ -4,21 +4,22 @@ const sc = require('@tsmx/string-crypto');
 const jt = require('@tsmx/json-traverse');
 
 const prefix = 'ENCRYPTED|';
+const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 
-function getKey() {
+function getKey(keyVariableName) {
     const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
     let result = null;
-    if (!process.env.CONFIG_ENCRYPTION_KEY) {
-        throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
+    if (!process.env[keyVariableName]) {
+        throw new Error(`Environment variable ${keyVariableName} not set.`);
     }
-    else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length == 32) {
-        result = process.env.CONFIG_ENCRYPTION_KEY;
+    else if (process.env[keyVariableName].toString().length == 32) {
+        result = process.env[keyVariableName];
     }
-    else if (hexReg.test(process.env.CONFIG_ENCRYPTION_KEY)) {
-        result = process.env.CONFIG_ENCRYPTION_KEY;
+    else if (hexReg.test(process.env[keyVariableName])) {
+        result = process.env[keyVariableName];
     }
     else {
-        throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+        throw new Error(`${keyVariableName} length must be 32 bytes.`);
     }
     return result;
 }
@@ -51,7 +52,7 @@ function getConfigPath() {
 
 module.exports = (_options) => {
     let conf = require(getConfigPath());
-    let confKey = getKey();
+    let confKey = getKey(defaultKeyVariableName);
     decryptConfig(conf, confKey);
     return conf;
 };
