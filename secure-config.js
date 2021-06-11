@@ -26,7 +26,7 @@ function getKey() {
 function decryptConfig(conf, confKey) {
     const callbacks = {
         processValue: (key, value, level, path, isObjectRoot, isArrayElement, cbSetValue) => {
-            if(!isArrayElement && value && value.toString().startsWith(prefix)) {
+            if (!isArrayElement && value && value.toString().startsWith(prefix)) {
                 cbSetValue(sc.decrypt(value.toString().substring(prefix.length), { key: confKey }));
             }
         }
@@ -49,8 +49,9 @@ function getConfigPath() {
     return confPath;
 }
 
-let conf = require(getConfigPath());
-let confKey = getKey();
-decryptConfig(conf, confKey);
-
-module.exports = conf;
+module.exports = (_options) => {
+    let conf = require(getConfigPath());
+    let confKey = getKey();
+    decryptConfig(conf, confKey);
+    return conf;
+};
