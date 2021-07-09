@@ -2,15 +2,20 @@ const path = require('path');
 const fs = require('fs');
 const sc = require('@tsmx/string-crypto');
 const jt = require('@tsmx/json-traverse');
+const oh = require('@tsmx/object-hmac');
 
 const prefix = 'ENCRYPTED|';
 const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
+const defaultHmacValidation = false;
+const defaultHmacProperty = '__hmac';
 
 function getOptValue(options, optName, defaultOptValue) {
-    if (options && options[optName])
+    if (options && options[optName]) {
         return options[optName]
-    else
+    }
+    else {
         return defaultOptValue;
+    }
 }
 
 function getKey(keyVariableName) {
@@ -59,7 +64,12 @@ function getConfigPath() {
 
 module.exports = (options) => {
     let conf = require(getConfigPath());
-    let confKey = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
-    decryptConfig(conf, confKey);
+    const key = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
+    decryptConfig(conf, key);
+    if (getOptValue(options, 'hmacValidation', defaultHmacValidation)) {
+        if (!oh.verifyHmac(conf, key, getOptValue(options, 'hmacProperty', defaultHmacProperty))) {
+            throw new Error('HMAC validation failed.');
+        }
+    }
     return conf;
 };
