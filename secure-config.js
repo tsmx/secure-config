@@ -6,6 +6,13 @@ const jt = require('@tsmx/json-traverse');
 const prefix = 'ENCRYPTED|';
 const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 
+function getOptValue(options, optName, defaultOptValue) {
+    if (options && options[optName])
+        return options[optName]
+    else
+        return defaultOptValue;
+}
+
 function getKey(keyVariableName) {
     const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
     let result = null;
@@ -50,9 +57,9 @@ function getConfigPath() {
     return confPath;
 }
 
-module.exports = (_options) => {
+module.exports = (options) => {
     let conf = require(getConfigPath());
-    let confKey = getKey(defaultKeyVariableName);
+    let confKey = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
     decryptConfig(conf, confKey);
     return conf;
 };

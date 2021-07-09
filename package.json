@@ -18,15 +18,14 @@
   "homepage": "https://tsmx.net/secure-config/",
   "keywords": [
     "configuration",
-    "config",
+    "configuration management",
     "secure",
     "encryption",
     "crypto",
     "credentials",
     "secret",
-    "key injection",
-    "multi",
-    "environment",
+    "key",
+    "multi-environment",
     "JSON",
     "NODE_ENV",
     "AES"
