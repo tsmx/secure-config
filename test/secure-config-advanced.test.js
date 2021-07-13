@@ -46,9 +46,16 @@ describe('secure-config adcanced features test suite (v2 features)', () => {
         done();
     });
 
-    it('tests a failed production configuration retrival because of a failed HMAC validation', async (done) => {
+    it('tests a failed production configuration retrival because of a failed HMAC validation (HMAC manipulated)', async (done) => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'production-hmacerror';
+        expect(() => { const conf = require('../secure-config')({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
+        done();
+    });
+
+    it('tests a failed production configuration retrival because of a failed HMAC validation (configuration value manipulated)', async (done) => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+        process.env['NODE_ENV'] = 'production-hmacerror2';
         expect(() => { const conf = require('../secure-config')({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
         done();
     });
