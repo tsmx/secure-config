@@ -109,11 +109,13 @@ Default: `false`
 
 Specifies if the loaded configuration should be validated against a given HMAC. If set to true, secure-config will validate the HMAC of the decrypted configuration content against a given HMAC using the current key. If the validation fails, an exception will be thrown. If it succeeds, the decrypted configuration will be returned.
 
-The given HMAC is retrieved from a configuration files property with the name of [hmacProperty](#hmacProperty).
+The given HMAC is retrieved from a configuration file property with the name of [hmacProperty](#hmacProperty).
 
-Enabling this option adds more security to your configuration management as the loaded configuration is safe against tampering. If an attacker would modify unencrypted entries in your configuration, this would cause the HMAC validation to fail and prevent you from any harm.
+Enabling this option adds more security to your configuration management as the loaded configuration is safe against tampering. If an attacker would modify any - even an unencrypted - entry in your configuration, this would cause the HMAC validation to fail and prevent you from any harm.
 
 Please ensure that your stored configuration files have an appropriate HMAC property before enabling this option. Otherwise loading the configuration would always fail.
+
+To get more information on how the HMAC validation works under the hood, please refer to the package [object-hmac](https://www.npmjs.com/package/@tsmx/object-hmac) which is used for that.
 
 ### hmacProperty
 
@@ -224,15 +226,15 @@ The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`
 
 ## Upgrading from versions prior to 2.x
 
-In versions before 2.x, the secure-config module directly exported the configuration object when requiring in the module. To add more flexibility and being able to provide new features, this was changed in the 2.x versions. The module now exports a function which can receive additional [options](#options). 
+In versions before 2.x, secure-config directly exported the configuration object when requiring in the module. To add more flexibility and being able to provide new features, this was changed in the 2.x versions. The module now exports a function which can receive additional [options](#options). 
 
 Since there's a full backward compatibility, all you have to do in your code using version 1.x so far is to invoke the function by adding a set of parenthesis.
 
 ```js
-// version 1.x: requiring in without any function call
+// version 1.x - requiring in without any function call
 const conf = require('@tsmx/secure-config');
 
-// version 2.x change to that for retaining full backward compatibility
+// version 2.x - change to that for retaining full backward compatibility
 const conf = require('@tsmx/secure-config')();
 
 // use conf as you did before...
