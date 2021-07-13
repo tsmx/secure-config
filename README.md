@@ -6,7 +6,9 @@
 [![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-> Secure multi-environment configurations with encrypted secrets.
+> Secure multi-environment configuration management with encrypted secrets. Optional tamper resistance by HMAC validation.
+
+If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
 
 ## Usage
 
@@ -24,7 +26,7 @@ For more details please see [generating encrypted values](#generating-encrypted-
 
 2. Use your configuration in the code.
     ```js
-    const conf = require('@tsmx/secure-config');
+    const conf = require('@tsmx/secure-config')();
 
     function MyFunc() {
       let dbHost = conf.database.host; // = '127.0.0.1'
@@ -33,6 +35,8 @@ For more details please see [generating encrypted values](#generating-encrypted-
       //...
     }
     ```
+    For further customization and advanced features like HMAC validation you can pass an options object - please refer to the [options section](#options).
+
 3. Run your app. See below for different [options on how to pass the key](#injecting-the-decryption-key).
    ```bash
    $ export CONFIG_ENCRYPTION_KEY=...
@@ -69,10 +73,80 @@ path-to-your-app/
 └── package.json
 ```
 
+## Options
+
+To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require statement without any argument (set of parenthesis after `require`).
+
+```js
+const conf = require('@tsmx/secure-config')();
+```
+
+To make use of the more advanced features and customize default values, you can pass an options object to this function call.
+
+```js
+const confOptions = {
+    keyVariable: 'CUSTOM_CONFIG_KEY',
+    hmacValidation: true, 
+    hmacProperty: '_signature'
+}
+
+const conf = require('@tsmx/secure-config')(confOptions);
+```
+
+The following options are available.
+
+### keyVariable
+
+Type: `String`
+Default: `CONFIG_ENCRYPTION_KEY`
+
+The name of the environment variable containing the key for decrypting configuration values and validating the HMAC. See also [options on how to pass the key](#injecting-the-decryption-key).
+
+### hmacValidation
+
+Type: `Boolean`
+Default: `false`
+
+Specifies if the loaded configuration should be validated against a given HMAC. If set to true, secure-config will validate the HMAC of the decrypted configuration content against a given HMAC using the current key. If the validation fails, an exception will be thrown. If it succeeds, the decrypted configuration will be returned.
+
+The given HMAC is retrieved from a configuration files property with the name of [hmacProperty](#hmacProperty).
+
+Enabling this option adds more security to your configuration management as the loaded configuration is safe against tampering. If an attacker would modify unencrypted entries in your configuration, this would cause the HMAC validation to fail and prevent you from any harm.
+
+Please ensure that your stored configuration files have an appropriate HMAC property before enabling this option. Otherwise loading the configuration would always fail.
+
+### hmacProperty
+
+Type: `String`
+Default: `__hmac`
+
+The name of the HMAC property in a configuration file to be validated against. Only used when [hmacValidation](#hmacValidation) is set tor `true`.
+
+Example configuration file using a custom HMAC property name:
+```js
+{
+    "database": {
+        "host": "db.prod.com",
+        "user": "ENCRYPTED|5cf569c8229d05034f173119795158fd|1d71ad3d86e402d2ebb8b2a1ef796862",
+        "password": "ENCRYPTED|9a4e5fdbbfe10b1d2b81a9ec9d46c6d1|95bf57f6ef988b80fa75577ed2da04c3b4549ac2de03c45fbbb8b4033b58b415"
+    },
+    "_signature": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+}
+```
+
+Loading the configuration with HMAC validation enabled:
+```js
+const confOptions = {
+    hmacValidation: true, 
+    hmacProperty: '_signature'
+}
+const conf = require('@tsmx/secure-config')(confOptions);
+```
+
 ## Injecting the decryption key
 
-The key for decrypting the encrypted values is derived from an environment variable named `CONFIG_ENCRYPTION_KEY`. You can set this variable 
-whatever way is most suitable, e.g.
+The key for decrypting the encrypted values is derived from an environment variable. The default name of this variable is `CONFIG_ENCRYPTION_KEY`, but you can also pass any other name via [options](#options). You can set the environment variable whatever way is most suitable, e.g.
+
 - set/export in the command line or in your bash pofile
   ```
   export CONFIG_ENCRYPTION_KEY=0123456789qwertzuiopasdfghjklyxc
@@ -147,6 +221,22 @@ The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`
 | `ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted. |
 | `IV`        | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value. |
 | `DATA`      | The AES-256-CBC encrypted value. Hexadecimal value. |
+
+## Upgrading from versions prior to 2.x
+
+In versions before 2.x, the secure-config module directly exported the configuration object when requiring in the module. To add more flexibility and being able to provide new features, this was changed in the 2.x versions. The module now exports a function which can receive additional [options](#options). 
+
+Since there's a full backward compatibility, all you have to do in your code using version 1.x so far is to invoke the function by adding a set of parenthesis.
+
+```js
+// version 1.x: requiring in without any function call
+const conf = require('@tsmx/secure-config');
+
+// version 2.x change to that for retaining full backward compatibility
+const conf = require('@tsmx/secure-config')();
+
+// use conf as you did before...
+```
 
 ## Test
 
