@@ -1,10 +1,10 @@
 {
   "name": "@tsmx/secure-config",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Secure multi-environment JSON configurations with encrypted secrets.",
   "main": "secure-config.js",
   "engines": {
-    "node": ">=10.0.0",
+    "node": ">=12.0.0",
     "npm": ">=6.0.0"
   },
   "scripts": {
@@ -21,6 +21,9 @@
     "configuration management",
     "secure",
     "encryption",
+    "HMAC",
+    "tamper resistance",
+    "manipulation safe",
     "crypto",
     "credentials",
     "secret",
