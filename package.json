@@ -36,7 +36,7 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^26.5.3"
+    "jest": "^27.0.6"
   },
   "dependencies": {
     "@tsmx/json-traverse": "^1.0.2",
