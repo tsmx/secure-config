@@ -6,14 +6,14 @@
 [![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-> Secure multi-environment configuration management with encrypted secrets. Optional tamper resistance by HMAC validation.
+> Secure multi-environment configuration management with encrypted secrets. Optional HMAC validation to prevent illegal manipulations of your configuration.
 
 If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
 
 ## Usage
 
 1. Encrypt sensitive data in your JSON configuration file. Most easy way to do this is using the [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool).
-For more details please see [generating encrypted values](#generating-encrypted-entries) and [naming conventions](#naming-conventions).
+For more details please see [generating an encrypted configuration](#generating-an-encrypted-configuration) and [naming conventions](#naming-conventions).
     ```json
     {
       "database": {
@@ -190,15 +190,15 @@ Examples of valid key strings:
 
 Different keys for each configuration environment are strongly recommended.
 
-## Generating encrypted entries
+## Generating an encrypted configuration
 
 ### Option 1: secure-config-tool
 
-For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate the encrypted entries.
+For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate encrypted configuration files with an otional HMAC.
 
 ### Option 2: NodeJS crypto functions 
 
-You can simply use `crypto` functions from NodeJS with the following snippet to create the encrypted entries:
+You can also simply use `crypto` functions from NodeJS with the following snippet to create the encrypted entries in a configuration file on your own:
 
 ```js
 const crypto = require('crypto');
