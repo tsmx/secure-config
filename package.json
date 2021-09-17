@@ -34,10 +34,10 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^26.5.3"
+    "jest": "^27.2.0"
   },
   "dependencies": {
-    "@tsmx/json-traverse": "^1.0.2",
-    "@tsmx/string-crypto": "^1.0.2"
+    "@tsmx/json-traverse": "^1.0.5",
+    "@tsmx/string-crypto": "^1.0.4"
   }
 }
