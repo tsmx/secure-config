@@ -6,7 +6,9 @@
 [![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-> Secure multi-environment configuration management with encrypted secrets. Optional HMAC validation to prevent illegal manipulations of your configuration.
+> Easy and secure configuration management. 
+
+Manage JSON based configurations with encrypted secrets and optional HMAC validation to prevent illegal manipulations.
 
 If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
 
