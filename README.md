@@ -111,13 +111,24 @@ Default: `false`
 
 Specifies if the loaded configuration should be validated against a given HMAC. If set to true, secure-config will validate the HMAC of the decrypted configuration content against a given HMAC using the current key. If the validation fails, an exception will be thrown. If it succeeds, the decrypted configuration will be returned.
 
-The given HMAC is retrieved from a configuration file property with the name of [hmacProperty](#hmacProperty).
+The given HMAC is retrieved from a configuration file property with the name of [hmacProperty](#hmacProperty), e.g.:
 
-Enabling this option adds more security to your configuration management as the loaded configuration is safe against tampering. If an attacker would modify any - even an unencrypted - entry in your configuration, this would cause the HMAC validation to fail and prevent you from any harm.
+```json
+{
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  },
+  "__hmac": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+}
+```
 
-Please ensure that your stored configuration files have an appropriate HMAC property before enabling this option. Otherwise loading the configuration would always fail.
+Enabling this option is recommended for production environments as it adds more security to your configuration management ensuring the loaded configuration is safe against tampering. Unwanted modifications of any - even unencrypted - entries in your configuration would cause the HMAC validation to fail and throw the error `HMAC validation failed`.
 
-To get more information on how the HMAC validation works under the hood, please refer to the package [object-hmac](https://www.npmjs.com/package/@tsmx/object-hmac) which is used for that.
+Please ensure that your stored configuration files have an appropriate HMAC property before enabling this option. Otherwise loading the configuration would always fail. [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) adds the HMAC by default when creating secured configuration files.
+
+To get more information on how the HMAC creation & validation works under the hood, please refer to the package [object-hmac](https://www.npmjs.com/package/@tsmx/object-hmac) which is used for that. The HMAC value is created out of the entire configuration object before optional encryption is applied.
 
 ### hmacProperty
 
