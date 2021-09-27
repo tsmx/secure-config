@@ -87,9 +87,9 @@ To make use of the more advanced features and customize default values, you can 
 
 ```js
 const confOptions = {
-    keyVariable: 'CUSTOM_CONFIG_KEY',
-    hmacValidation: true, 
-    hmacProperty: '_signature'
+  keyVariable: 'CUSTOM_CONFIG_KEY',
+  hmacValidation: true, 
+  hmacProperty: '_signature'
 }
 
 const conf = require('@tsmx/secure-config')(confOptions);
@@ -138,14 +138,14 @@ Default: `__hmac`
 The name of the HMAC property in a configuration file to be validated against. Only used when [hmacValidation](#hmacValidation) is set tor `true`.
 
 Example configuration file using a custom HMAC property name:
-```js
+```json
 {
-    "database": {
-        "host": "db.prod.com",
-        "user": "ENCRYPTED|5cf569c8229d05034f173119795158fd|1d71ad3d86e402d2ebb8b2a1ef796862",
-        "password": "ENCRYPTED|9a4e5fdbbfe10b1d2b81a9ec9d46c6d1|95bf57f6ef988b80fa75577ed2da04c3b4549ac2de03c45fbbb8b4033b58b415"
-    },
-    "_signature": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  },
+  "_signature": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
 }
 ```
 
