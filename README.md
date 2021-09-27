@@ -8,7 +8,7 @@
 
 > Easy and secure configuration management. 
 
-Manage JSON based configurations with encrypted secrets and optional HMAC validation to prevent illegal manipulations.
+Manage JSON based configurations with encrypted secrets and optional HMAC validation to ensure data integrity.
 
 If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
 
