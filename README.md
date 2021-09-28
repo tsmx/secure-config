@@ -6,12 +6,16 @@
 [![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
-> Secure multi-environment configurations with encrypted secrets.
+> Easy and secure configuration management. 
+
+Manage JSON based configurations with encrypted secrets and optional HMAC validation to ensure data integrity.
+
+If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
 
 ## Usage
 
 1. Encrypt sensitive data in your JSON configuration file. Most easy way to do this is using the [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool).
-For more details please see [generating encrypted values](#generating-encrypted-entries) and [naming conventions](#naming-conventions).
+For more details please see [generating an encrypted configuration](#generating-an-encrypted-configuration) and [naming conventions](#naming-conventions).
     ```json
     {
       "database": {
@@ -24,7 +28,7 @@ For more details please see [generating encrypted values](#generating-encrypted-
 
 2. Use your configuration in the code.
     ```js
-    const conf = require('@tsmx/secure-config');
+    const conf = require('@tsmx/secure-config')();
 
     function MyFunc() {
       let dbHost = conf.database.host; // = '127.0.0.1'
@@ -33,6 +37,8 @@ For more details please see [generating encrypted values](#generating-encrypted-
       //...
     }
     ```
+    For further customization and advanced features like HMAC validation you can pass an options object - please refer to the [options section](#options).
+
 3. Run your app. See below for different [options on how to pass the key](#injecting-the-decryption-key).
    ```bash
    $ export CONFIG_ENCRYPTION_KEY=...
@@ -69,10 +75,93 @@ path-to-your-app/
 └── package.json
 ```
 
+## Options
+
+To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require statement without any argument (set of parenthesis after `require`).
+
+```js
+const conf = require('@tsmx/secure-config')();
+```
+
+To make use of the more advanced features and customize default values, you can pass an options object to this function call.
+
+```js
+const confOptions = {
+  keyVariable: 'CUSTOM_CONFIG_KEY',
+  hmacValidation: true, 
+  hmacProperty: '_signature'
+}
+
+const conf = require('@tsmx/secure-config')(confOptions);
+```
+
+The following options are available.
+
+### keyVariable
+
+Type: `String`
+Default: `CONFIG_ENCRYPTION_KEY`
+
+The name of the environment variable containing the key for decrypting configuration values and validating the HMAC. See also [options on how to pass the key](#injecting-the-decryption-key).
+
+### hmacValidation
+
+Type: `Boolean`
+Default: `false`
+
+Specifies if the loaded configuration should be validated against a given HMAC. If set to true, secure-config will validate the HMAC of the decrypted configuration content against a given HMAC using the current key. If the validation fails, an exception will be thrown. If it succeeds, the decrypted configuration will be returned.
+
+The given HMAC is retrieved from a configuration file property with the name of [hmacProperty](#hmacProperty), e.g.:
+
+```json
+{
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  },
+  "__hmac": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+}
+```
+
+Enabling this option is recommended for production environments as it adds more security to your configuration management ensuring the loaded configuration is safe against tampering. Unwanted modifications of any - even unencrypted - entries in your configuration would cause the HMAC validation to fail and throw the error `HMAC validation failed`.
+
+Please ensure that your stored configuration files have an appropriate HMAC property before enabling this option. Otherwise loading the configuration would always fail. [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) adds the HMAC by default when creating secured configuration files.
+
+To get more information on how the HMAC creation & validation works under the hood, please refer to the package [object-hmac](https://www.npmjs.com/package/@tsmx/object-hmac) which is used for that. The HMAC value is created out of the entire configuration object before optional encryption is applied.
+
+### hmacProperty
+
+Type: `String`
+Default: `__hmac`
+
+The name of the HMAC property in a configuration file to be validated against. Only used when [hmacValidation](#hmacValidation) is set tor `true`.
+
+Example configuration file using a custom HMAC property name:
+```json
+{
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  },
+  "_signature": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+}
+```
+
+Loading the configuration with HMAC validation enabled:
+```js
+const confOptions = {
+    hmacValidation: true, 
+    hmacProperty: '_signature'
+}
+const conf = require('@tsmx/secure-config')(confOptions);
+```
+
 ## Injecting the decryption key
 
-The key for decrypting the encrypted values is derived from an environment variable named `CONFIG_ENCRYPTION_KEY`. You can set this variable 
-whatever way is most suitable, e.g.
+The key for decrypting the encrypted values is derived from an environment variable. The default name of this variable is `CONFIG_ENCRYPTION_KEY`, but you can also pass any other name via [options](#options). You can set the environment variable whatever way is most suitable, e.g.
+
 - set/export in the command line or in your bash pofile
   ```
   export CONFIG_ENCRYPTION_KEY=0123456789qwertzuiopasdfghjklyxc
@@ -114,15 +203,15 @@ Examples of valid key strings:
 
 Different keys for each configuration environment are strongly recommended.
 
-## Generating encrypted entries
+## Generating an encrypted configuration
 
 ### Option 1: secure-config-tool
 
-For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate the encrypted entries.
+For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate encrypted configuration files with an otional HMAC.
 
 ### Option 2: NodeJS crypto functions 
 
-You can simply use `crypto` functions from NodeJS with the following snippet to create the encrypted entries:
+You can also simply use `crypto` functions from NodeJS with the following snippet to create the encrypted entries in a configuration file on your own:
 
 ```js
 const crypto = require('crypto');
@@ -147,6 +236,22 @@ The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`
 | `ENCRYPTED` | The prefix `ENCRYPTED` used to identify configuration values that must be decrypted. |
 | `IV`        | The ciphers initialization vector (IV) that was used for encryption. Hexadecimal value. |
 | `DATA`      | The AES-256-CBC encrypted value. Hexadecimal value. |
+
+## Upgrading from versions prior to 2.x
+
+In versions before 2.x, secure-config directly exported the configuration object when requiring in the module. To add more flexibility and being able to provide new features, this was changed in the 2.x versions. The module now exports a function which can receive additional [options](#options). 
+
+Since there's a full backward compatibility, all you have to do in your code using version 1.x so far is to invoke the function by adding a set of parenthesis.
+
+```js
+// version 1.x - requiring in without any function call
+const conf = require('@tsmx/secure-config');
+
+// version 2.x - change to that for retaining full backward compatibility
+const conf = require('@tsmx/secure-config')();
+
+// use conf as you did before...
+```
 
 ## Test
 

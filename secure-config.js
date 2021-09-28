@@ -2,23 +2,36 @@ const path = require('path');
 const fs = require('fs');
 const sc = require('@tsmx/string-crypto');
 const jt = require('@tsmx/json-traverse');
+const oh = require('@tsmx/object-hmac');
 
 const prefix = 'ENCRYPTED|';
+const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
+const defaultHmacValidation = false;
+const defaultHmacProperty = '__hmac';
 
-function getKey() {
-    const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
-    let result = null;
-    if (!process.env.CONFIG_ENCRYPTION_KEY) {
-        throw new Error('Environment variable CONFIG_ENCRYPTION_KEY not set.');
-    }
-    else if (process.env.CONFIG_ENCRYPTION_KEY.toString().length == 32) {
-        result = process.env.CONFIG_ENCRYPTION_KEY;
-    }
-    else if (hexReg.test(process.env.CONFIG_ENCRYPTION_KEY)) {
-        result = process.env.CONFIG_ENCRYPTION_KEY;
+function getOptValue(options, optName, defaultOptValue) {
+    if (options && options[optName]) {
+        return options[optName]
     }
     else {
-        throw new Error('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+        return defaultOptValue;
+    }
+}
+
+function getKey(keyVariableName) {
+    const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
+    let result = null;
+    if (!process.env[keyVariableName]) {
+        throw new Error(`Environment variable ${keyVariableName} not set.`);
+    }
+    else if (process.env[keyVariableName].toString().length == 32) {
+        result = process.env[keyVariableName];
+    }
+    else if (hexReg.test(process.env[keyVariableName])) {
+        result = process.env[keyVariableName];
+    }
+    else {
+        throw new Error(`${keyVariableName} length must be 32 bytes.`);
     }
     return result;
 }
@@ -26,7 +39,7 @@ function getKey() {
 function decryptConfig(conf, confKey) {
     const callbacks = {
         processValue: (key, value, level, path, isObjectRoot, isArrayElement, cbSetValue) => {
-            if(!isArrayElement && value && value.toString().startsWith(prefix)) {
+            if (!isArrayElement && value && value.toString().startsWith(prefix)) {
                 cbSetValue(sc.decrypt(value.toString().substring(prefix.length), { key: confKey }));
             }
         }
@@ -49,8 +62,14 @@ function getConfigPath() {
     return confPath;
 }
 
-let conf = require(getConfigPath());
-let confKey = getKey();
-decryptConfig(conf, confKey);
-
-module.exports = conf;
+module.exports = (options) => {
+    let conf = require(getConfigPath());
+    const key = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
+    decryptConfig(conf, key);
+    if (getOptValue(options, 'hmacValidation', defaultHmacValidation)) {
+        if (!oh.verifyHmac(conf, key, getOptValue(options, 'hmacProperty', defaultHmacProperty))) {
+            throw new Error('HMAC validation failed.');
+        }
+    }
+    return conf;
+}

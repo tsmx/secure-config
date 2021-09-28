@@ -11,5 +11,5 @@
             "storagepass": "ENCRYPTED|7a7e87414b68919f70604e9e71d38f52|872dba2abe6f3a4bc4fa89b93234a86fbb4577f4ba5aa89949e4e4d0b16111e2"
         }
     },
-    "__hmac": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+    "_signature": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
 }

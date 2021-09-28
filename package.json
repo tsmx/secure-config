@@ -1,10 +1,10 @@
 {
   "name": "@tsmx/secure-config",
-  "version": "1.2.4",
-  "description": "Secure multi-environment JSON configurations with encrypted secrets.",
+  "version": "2.0.0",
+  "description": "Easy and secure configuration management. JSON based, encrypted secrets, optional HMAC validation.",
   "main": "secure-config.js",
   "engines": {
-    "node": ">=10.0.0",
+    "node": ">=12.0.0",
     "npm": ">=6.0.0"
   },
   "scripts": {
@@ -18,15 +18,18 @@
   "homepage": "https://tsmx.net/secure-config/",
   "keywords": [
     "configuration",
-    "config",
+    "configuration management",
     "secure",
     "encryption",
+    "HMAC",
+    "data integrity",
+    "tamper resistance",
+    "manipulation safe",
     "crypto",
     "credentials",
     "secret",
-    "key injection",
-    "multi",
-    "environment",
+    "key",
+    "multi-environment",
     "JSON",
     "NODE_ENV",
     "AES"
@@ -34,10 +37,11 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^27.2.0"
+    "jest": "^27.0.6"
   },
   "dependencies": {
-    "@tsmx/json-traverse": "^1.0.5",
-    "@tsmx/string-crypto": "^1.0.4"
+    "@tsmx/json-traverse": "^1.0.2",
+    "@tsmx/object-hmac": "^1.1.1",
+    "@tsmx/string-crypto": "^1.0.2"
   }
 }
