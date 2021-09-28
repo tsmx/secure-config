@@ -10,7 +10,7 @@
 
 Manage JSON based configurations with encrypted secrets and optional HMAC validation to ensure data integrity.
 
-If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x)
+If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x).
 
 ## Usage
 
@@ -207,7 +207,7 @@ Different keys for each configuration environment are strongly recommended.
 
 ### Option 1: secure-config-tool
 
-For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate encrypted configuration files with an otional HMAC.
+For better convenience I provided a very basic [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool) to easily generate encrypted configuration files with an optional HMAC.
 
 ### Option 2: NodeJS crypto functions 
 
@@ -241,7 +241,7 @@ The generated encrypted entry must always have the form: `ENCRYPTED | IV | DATA`
 
 In versions before 2.x, secure-config directly exported the configuration object when requiring in the module. To add more flexibility and being able to provide new features, this was changed in the 2.x versions. The module now exports a function which can receive additional [options](#options). 
 
-Since there's a full backward compatibility, all you have to do in your code using version 1.x so far is to invoke the function by adding a set of parenthesis.
+Since there's a full backward compatibility, all you have to do in your existing code using version 1.x so far is to invoke the function by adding a set of parenthesis.
 
 ```js
 // version 1.x - requiring in without any function call
