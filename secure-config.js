@@ -11,7 +11,7 @@ const defaultHmacProperty = '__hmac';
 
 function getOptValue(options, optName, defaultOptValue) {
     if (options && options[optName]) {
-        return options[optName]
+        return options[optName];
     }
     else {
         return defaultOptValue;
