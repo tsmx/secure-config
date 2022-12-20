@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![npm (scoped)](https://img.shields.io/npm/v/@tsmx/secure-config)
 ![node-current (scoped)](https://img.shields.io/node/v/@tsmx/secure-config)
-[![Build Status](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)](https://img.shields.io/github/workflow/status/tsmx/secure-config/git-ci-build)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tsmx/secure-config/git-build.yml?branch=master)](https://img.shields.io/github/actions/workflow/status/tsmx/secure-config/git-build.yml?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/tsmx/secure-config/badge.svg?branch=master)](https://coveralls.io/github/tsmx/secure-config?branch=master)
 
 > Easy and secure configuration management. 
