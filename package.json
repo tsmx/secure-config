@@ -40,7 +40,7 @@
     "jest": "^27.0.6"
   },
   "dependencies": {
-    "@tsmx/json-traverse": "^1.0.2",
+    "@tsmx/json-traverse": "^1.0.6",
     "@tsmx/object-hmac": "^1.1.1",
     "@tsmx/string-crypto": "^1.0.2"
   }
