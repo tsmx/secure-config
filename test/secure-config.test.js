@@ -67,18 +67,18 @@ describe('secure-config basic features test suite (v1 features)', () => {
     it('tests a failed configuration retrival because of an encryption key which length is not 32 bytes', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjkly';
         process.env['NODE_ENV'] = '';
-        expect(() => { const conf = require('../secure-config')(); }).toThrow('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
+        expect(() => { require('../secure-config')(); }).toThrow('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
     });
 
     it('tests a failed configuration retrival because of a not existing configuration file', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'UNKNOWN';
-        expect(() => { const conf = require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
+        expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
     });
 
     it('tests a failed configuration retrival because of a wrong key', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklXXX';
         process.env['NODE_ENV'] = 'production';
-        expect(() => { const conf = require('../secure-config')(); }).toThrow();
+        expect(() => { require('../secure-config')(); }).toThrow();
     });
 });

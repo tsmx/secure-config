@@ -37,6 +37,7 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^8.41.0",
     "jest": "^27.0.6"
   },
   "dependencies": {
