@@ -84,7 +84,7 @@ path-to-your-app/
 
 ## Options
 
-To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require/import statement without any argument (set of parenthesis after `require` or simple method call after `import``).
+To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require/import statement without any argument (set of parenthesis after `require` or simple method call after `import`).
 
 ```js
 // CommonJS
