@@ -10,6 +10,8 @@
 
 Manage JSON based configurations with encrypted secrets and optional HMAC validation to ensure data integrity.
 
+Works with CommonJS and ESM/ECMAScript.
+
 If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x).
 
 ## Usage
@@ -28,7 +30,12 @@ For more details please see [generating an encrypted configuration](#generating-
 
 2. Use your configuration in the code.
     ```js
+    // CommonJS
     const conf = require('@tsmx/secure-config')();
+
+    // ESM
+    import secureConfig from '@tsmx/secure-config';
+    const conf = secureConfig();
 
     function MyFunc() {
       let dbHost = conf.database.host; // = '127.0.0.1'
@@ -77,10 +84,15 @@ path-to-your-app/
 
 ## Options
 
-To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require statement without any argument (set of parenthesis after `require`).
+To retrieve a configuration using all default values and without advanced features, you simply invoke a function after the require/import statement without any argument (set of parenthesis after `require` or simple method call after `import``).
 
 ```js
+// CommonJS
 const conf = require('@tsmx/secure-config')();
+
+// ESM
+import secureConfig from '@tsmx/secure-config';
+const conf = secureConfig();
 ```
 
 To make use of the more advanced features and customize default values, you can pass an options object to this function call.
@@ -92,7 +104,12 @@ const confOptions = {
   hmacProperty: '_signature'
 }
 
+// CommonJS
 const conf = require('@tsmx/secure-config')(confOptions);
+
+// ESM
+import secureConfig from '@tsmx/secure-config';
+const conf = secureConfig(confOptions);
 ```
 
 The following options are available.
