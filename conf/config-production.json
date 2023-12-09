@@ -11,5 +11,13 @@
             "storagepass": "ENCRYPTED|7a7e87414b68919f70604e9e71d38f52|872dba2abe6f3a4bc4fa89b93234a86fbb4577f4ba5aa89949e4e4d0b16111e2"
         }
     },
-    "__hmac": "3023eb8cf76894c0d5c7f893819916d876f98f781f8944b77e87257ef77c1adf"
+    "testarray": [
+        {
+            "arrayItemKey": "ENCRYPTED|ad271fa483d82796e021a9c199e8b52b|420cf1c6e90590fa360a1a6fe8fb559c"
+        },
+        {
+            "arrayItemKey": "ENCRYPTED|33ef4527795eafd1019bc9d00d4a4ad2|e2aa1207886da4fcc33916610d082d4b"
+        }
+    ],
+    "__hmac": "71392309c965f7d031a53c54cbec5496b0d26e0af2a674cb3f8f32163bec9b32"
 }

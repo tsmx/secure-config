@@ -6,7 +6,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         delete process.env['NODE_ENV'];
     });
 
-    it('tests a successful production configuration retrival', () => {
+    it('tests a successful production configuration retrieval', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'production';
         const conf = require('../secure-config')();
@@ -16,9 +16,13 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.type).toBe('local');
         expect(conf.filestorage.params.folder).toBe('/tmp/storage');
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword-Prod');
+        expect(conf.testarray.length).toEqual(2);
+        expect(conf.testarray[0].arrayItemKey).toEqual('itemValue1');
+        expect(conf.testarray[1].arrayItemKey).toEqual('itemValue2');
+
     });
 
-    it('tests a successful configuration retrival with a hexadecimal key', () => {
+    it('tests a successful configuration retrieval with a hexadecimal key', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '9af7d400be4705147dc724db25bfd2513aa11d6013d7bf7bdb2bfe050593bd0f';
         process.env['NODE_ENV'] = 'hex';
         const conf = require('../secure-config')();
@@ -30,7 +34,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword-Hex');
     });
 
-    it('tests a successful development configuration retrival', () => {
+    it('tests a successful development configuration retrieval', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = '';
         const conf = require('../secure-config')();
@@ -51,7 +55,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.nullvalue).toBe(null);
     });
 
-    it('tests a successful configuration retrival without any encryption', () => {
+    it('tests a successful configuration retrieval without any encryption', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'unencrypted';
         const conf = require('../secure-config')();
@@ -64,24 +68,24 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.params.storagepass).toBe('storagepass');
     });
 
-    it('tests a failed configuration retrival because of a missing encryption key', () => {
+    it('tests a failed configuration retrieval because of a missing encryption key', () => {
         process.env['NODE_ENV'] = '';
         expect(() => { require('../secure-config')(); }).toThrow('Environment variable CONFIG_ENCRYPTION_KEY not set.');
     });
 
-    it('tests a failed configuration retrival because of an encryption key which length is not 32 bytes', () => {
+    it('tests a failed configuration retrieval because of an encryption key which length is not 32 bytes', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjkly';
         process.env['NODE_ENV'] = '';
         expect(() => { require('../secure-config')(); }).toThrow('CONFIG_ENCRYPTION_KEY length must be 32 bytes.');
     });
 
-    it('tests a failed configuration retrival because of a not existing configuration file', () => {
+    it('tests a failed configuration retrieval because of a not existing configuration file', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'UNKNOWN';
         expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
     });
 
-    it('tests a failed configuration retrival because of a wrong key', () => {
+    it('tests a failed configuration retrieval because of a wrong key', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklXXX';
         process.env['NODE_ENV'] = 'production';
         expect(() => { require('../secure-config')(); }).toThrow();
