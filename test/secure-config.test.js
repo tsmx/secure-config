@@ -46,7 +46,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword');
         expect(conf.testarray).toBeDefined();
         expect(Array.isArray(conf.testarray)).toBeTruthy();
-        expect(conf.testarray.length).toBe(5);
+        expect(conf.testarray.length).toBe(6);
         expect(conf.testarray[0]).toEqual('one');
         expect(conf.testarray[1]).toEqual('two');
         expect(conf.testarray[2]).toEqual('three');
@@ -55,6 +55,8 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.testarray[4].arrayItemKey).toEqual('itemValue2');
         expect(conf.testarray[4].additionalItem1).toEqual('value1');
         expect(conf.testarray[4].additionalItem2).toEqual(12);
+        expect(conf.testarray[5].length).toEqual(1);
+        expect(conf.testarray[5][0].subArrayItemKey).toEqual('subArrayItemValue');
         expect(conf.nullvalue).toBe(null);
     });
 

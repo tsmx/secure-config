@@ -23,7 +23,12 @@
             "arrayItemKey": "ENCRYPTED|33ef4527795eafd1019bc9d00d4a4ad2|e2aa1207886da4fcc33916610d082d4b",
             "additionalItem1": "value1",
             "additionalItem2": 12
-        }
+        },
+        [
+            {
+                "subArrayItemKey": "ENCRYPTED|492a92a7e47089c81d05dab652992d8a|854dcababd0e9225310a10e76d1fea88435fc4489123f82b1899169fcf9de58e"
+            }
+        ]
     ],
     "nullvalue": null
 }
