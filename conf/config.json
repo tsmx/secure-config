@@ -14,7 +14,13 @@
     "testarray": [
         "one",
         "two",
-        "three"
+        "three",
+        {
+            "arrayItemKey": "ENCRYPTED|ad271fa483d82796e021a9c199e8b52b|420cf1c6e90590fa360a1a6fe8fb559c"
+        },
+        {
+            "arrayItemKey": "ENCRYPTED|33ef4527795eafd1019bc9d00d4a4ad2|e2aa1207886da4fcc33916610d082d4b"
+        }
     ],
     "nullvalue": null
 }

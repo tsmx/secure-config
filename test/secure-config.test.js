@@ -42,7 +42,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword');
         expect(conf.testarray).toBeDefined();
         expect(Array.isArray(conf.testarray)).toBeTruthy();
-        expect(conf.testarray.length).toBe(3);
+        expect(conf.testarray.length).toBe(5);
         expect(conf.nullvalue).toBe(null);
     });
 
