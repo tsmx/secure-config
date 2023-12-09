@@ -43,6 +43,11 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.testarray).toBeDefined();
         expect(Array.isArray(conf.testarray)).toBeTruthy();
         expect(conf.testarray.length).toBe(5);
+        expect(conf.testarray[0]).toEqual('one');
+        expect(conf.testarray[1]).toEqual('two');
+        expect(conf.testarray[2]).toEqual('three');
+        expect(conf.testarray[3].arrayItemKey).toEqual('itemValue1');
+        expect(conf.testarray[4].arrayItemKey).toEqual('itemValue2');
         expect(conf.nullvalue).toBe(null);
     });
 

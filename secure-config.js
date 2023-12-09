@@ -44,7 +44,7 @@ function decryptConfig(conf, confKey) {
             }
         }
     };
-    jt.traverse(conf, callbacks, true);
+    jt.traverse(conf, callbacks);
     return conf;
 }
 
