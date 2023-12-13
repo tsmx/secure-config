@@ -32,6 +32,9 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.filestorage.type).toBe('local');
         expect(conf.filestorage.params.folder).toBe('/tmp/storage');
         expect(conf.filestorage.params.storagepass).toBe('StoragePassword-Hex');
+        expect(conf.testarray.length).toEqual(2);
+        expect(conf.testarray[0].arrayItemKey).toEqual('itemValue1-Hex');
+        expect(conf.testarray[1].arrayItemKey).toEqual('itemValue2-Hex');
     });
 
     it('tests a successful development configuration retrieval', () => {

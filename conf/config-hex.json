@@ -10,5 +10,13 @@
             "folder": "/tmp/storage",
             "storagepass": "ENCRYPTED|e62c43bcf8a4007a971912149284a5c9|f373db19486354e16deefd7550049fe32c9c06866b8ef345da4a7bcb9a8d3c33"
         }
-    }
+    },
+    "testarray": [
+        {
+            "arrayItemKey": "ENCRYPTED|e84ff1d86b842658d5e73ac95be1e214|6b69c98d915f6fa499656fd553d03361"
+        },
+        {
+            "arrayItemKey": "ENCRYPTED|4b103f5c5c4c4af41f8d2ceda7a5a100|7c073186f9d73c2a6c888f1341093719"
+        }
+    ]
 }
