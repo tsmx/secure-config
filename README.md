@@ -185,11 +185,9 @@ The key for decrypting the encrypted values is derived from an environment varia
   ```
 - using an env block in your VS-Code launch configuration
   ```json
-  ...
   "env": {
-      "CONFIG_ENCRYPTION_KEY": "0123456789qwertzuiopasdfghjklyxc"
-  },
-  ...
+    "CONFIG_ENCRYPTION_KEY": "0123456789qwertzuiopasdfghjklyxc"
+  }
   ```
 - using an env block in your deployment descriptor, e.g. app.yaml for Google App Engine
   ```yaml
