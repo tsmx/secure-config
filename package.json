@@ -38,7 +38,7 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.41.0",
-    "jest": "^27.0.6"
+    "jest": "^29.7.0"
   },
   "dependencies": {
     "@tsmx/json-traverse": "^1.0.6",
