@@ -63,6 +63,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.testarray[5].length).toEqual(1);
         expect(conf.testarray[5][0].subArrayItemKey).toEqual('subArrayItemValue');
         expect(conf.nullvalue).toBe(null);
+        expect(conf.info).toBeUndefined();
     });
 
     it('tests a successful configuration retrieval without any encryption', () => {
