@@ -39,7 +39,6 @@ describe('secure-config basic features test suite (v1 features)', () => {
 
     it('tests a successful development configuration retrieval', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
-        process.env['NODE_ENV'] = '';
         const conf = require('../secure-config')();
         expect(conf.database.host).toBe('127.0.0.1');
         expect(conf.database.user).toBe('SecretUser');
@@ -90,7 +89,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
     it('tests a failed configuration retrieval because of a not existing configuration file', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
         process.env['NODE_ENV'] = 'UNKNOWN';
-        expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
+        expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN and prefix config does not exist.');
     });
 
     it('tests a failed configuration retrieval because of a wrong key', () => {

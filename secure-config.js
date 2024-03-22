@@ -5,6 +5,8 @@ const jt = require('@tsmx/json-traverse');
 const oh = require('@tsmx/object-hmac');
 
 const prefix = 'ENCRYPTED|';
+const defaultDirectory = 'conf';
+const defaultFilePrefix = 'config';
 const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 const defaultHmacValidation = false;
 const defaultHmacProperty = '__hmac';
@@ -48,22 +50,18 @@ function decryptConfig(conf, confKey) {
     return conf;
 }
 
-function getConfigPath() {
-    let confPath = null;
-    if (process.env.NODE_ENV) {
-        confPath = path.join(process.cwd(), 'conf', 'config-' + process.env.NODE_ENV + '.json');
-    }
-    else {
-        confPath = path.join(process.cwd(), 'conf', 'config.json');
-    }
+function getConfigPath(options) {
+    const prefix = getOptValue(options, 'prefix', defaultFilePrefix);
+    const confFileName = prefix + (process.env.NODE_ENV ? '-' + process.env.NODE_ENV : '') + '.json';
+    const confPath = path.join(process.cwd(), defaultDirectory, confFileName);
     if (!fs.existsSync(confPath)) {
-        throw new Error('Configuration file for NODE_ENV ' + process.env.NODE_ENV + ' does not exist.');
+        throw new Error(`Configuration file for NODE_ENV ${process.env.NODE_ENV} and prefix ${prefix} does not exist.`);
     }
     return confPath;
 }
 
 module.exports = (options) => {
-    let conf = require(getConfigPath());
+    let conf = require(getConfigPath(options));
     const key = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
     decryptConfig(conf, key);
     if (getOptValue(options, 'hmacValidation', defaultHmacValidation)) {
