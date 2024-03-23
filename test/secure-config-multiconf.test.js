@@ -1,6 +1,7 @@
 describe('secure-config multiconf feature test suite (v2 features)', () => {
 
-    const key = '11c4b6c3cdb7ebaff74a7a340d30c45fd2f7a49d6d0b56badb300dbe49f233ec';
+    const myconfKey = '11c4b6c3cdb7ebaff74a7a340d30c45fd2f7a49d6d0b56badb300dbe49f233ec';
+    const confKey = '0123456789qwertzuiopasdfghjklyxc';
 
     beforeEach(() => {
         jest.resetModules();
@@ -10,7 +11,7 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
     });
 
     it('tests a successful production configuration retrieval with custom file prefix', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = key;
+        process.env['CONFIG_ENCRYPTION_KEY'] = myconfKey;
         const conf = require('../secure-config')({ prefix: 'myconf' });
         expect(conf.info).toEqual('myconf');
         expect(conf.database.host).toBe('127.0.0.1');
@@ -36,7 +37,7 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
     });
 
     it('tests a successful production configuration retrieval with custom file prefix and custom key variable name', () => {
-        process.env['CUSTOM_CONFIG_KEY'] = key;
+        process.env['CUSTOM_CONFIG_KEY'] = myconfKey;
         const conf = require('../secure-config')({ prefix: 'myconf', keyVariable: 'CUSTOM_CONFIG_KEY' });
         expect(conf.info).toEqual('myconf');
         expect(conf.database.host).toBe('127.0.0.1');
@@ -62,7 +63,7 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
     });
 
     it('tests a successful production configuration retrieval with custom file prefix and HMAC validation', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = key;
+        process.env['CONFIG_ENCRYPTION_KEY'] = myconfKey;
         process.env['NODE_ENV'] = 'production';
         const conf = require('../secure-config')({ prefix: 'myconf', hmacValidation: true });
         expect(conf.info).toEqual('myconf');
@@ -75,6 +76,23 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
         expect(conf.testarray.length).toEqual(2);
         expect(conf.testarray[0].arrayItemKey).toEqual('itemValue1');
         expect(conf.testarray[1].arrayItemKey).toEqual('itemValue2');
+    });
+
+    it('tests a successful retrieval for two production configurations including HMAC validation', () => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = confKey;
+        process.env['MYCONFIG_ENCRYPTION_KEY'] = myconfKey;
+        process.env['NODE_ENV'] = 'production';
+        const secureConf = require('../secure-config');
+        const conf = secureConf({ hmacValidation: true });
+        const myconf = secureConf({ prefix: 'myconf', hmacValidation: true, keyVariable: 'MYCONFIG_ENCRYPTION_KEY' });
+        expect(conf.info).toBeUndefined();
+        expect(conf.database.host).toBe('db.prod.com');
+        expect(conf.database.user).toBe('SecretUser-Prod');
+        expect(conf.database.password).toBe('SecretPassword-Prod');
+        expect(myconf.info).toEqual('myconf');
+        expect(myconf.database.host).toBe('db.prod.com');
+        expect(myconf.database.user).toBe('SecretUser-Prod');
+        expect(myconf.database.password).toBe('SecretPassword-Prod');
     });
 
 });
