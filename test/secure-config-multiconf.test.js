@@ -1,6 +1,6 @@
 describe('secure-config multiconf feature test suite (v2 features)', () => {
 
-    const key = '0123456789qwertzuiopasdfghjklyxc';
+    const key = '11c4b6c3cdb7ebaff74a7a340d30c45fd2f7a49d6d0b56badb300dbe49f233ec';
 
     beforeEach(() => {
         jest.resetModules();
