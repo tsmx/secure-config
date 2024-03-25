@@ -183,7 +183,7 @@ const conf = require('@tsmx/secure-config')(confOptions);
 Type: `String`
 Default: `config`
 
-Use this parameter to change the default file name pattern from `config-[NODE_ENV].json` to `[prefix]-[NODE_ENV].json` to load files with deviating names or additional ones. The value of `NODE_ENV` will be evaluated as described in the [naming conventions](#naming-conventions).
+Use this parameter to change the default file name pattern from `config-[NODE_ENV].json` to `[prefix]-[NODE_ENV].json` for loading files with deviating names or additional ones. The value of `NODE_ENV` will be evaluated as described in the [naming conventions](#naming-conventions).
 
 To load multiple configurations, use the following pattern in your code.
 
