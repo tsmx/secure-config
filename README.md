@@ -301,6 +301,9 @@ const conf = require('@tsmx/secure-config')();
 ### 2.1.0
 - Support for encrypted properties of objects in arrays added, e.g. `{  configArray: [ { key: 'ENCRYPTED|...' }, { key: 'ENCRYPTED|... ' } ] }`
 
+### 2.2.0
+- Support for loading multiple configurations with new option [prefix](#prefix) added.
+
 ## Test
 
 ```

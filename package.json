@@ -1,6 +1,6 @@
 {
   "name": "@tsmx/secure-config",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Easy and secure configuration management. JSON based encrypted secrets, optional HMAC validation.",
   "main": "secure-config.js",
   "engines": {
