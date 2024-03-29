@@ -61,6 +61,8 @@ To get all information please also check out the [full documentation](https://ts
 You can have multiple configuration files for different environments or stages. They are distinguished by the environment variable `NODE_ENV`. The basic configuration file name is `config.json` if this variable is not present. If it is present, a configuration file with the name `config-[NODE_ENV].json`
 is used. An exception will be thrown if no configuration file is found.
 
+To change the default configuration file name or loading multiple configuration files you can pass the [prefix](#prefix) option.
+
 All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
 
 ### Example structure
@@ -101,7 +103,8 @@ To make use of the more advanced features and customize default values, you can 
 const confOptions = {
   keyVariable: 'CUSTOM_CONFIG_KEY',
   hmacValidation: true, 
-  hmacProperty: '_signature'
+  hmacProperty: '_signature',
+  prefix: 'myconf'
 }
 
 // CommonJS
@@ -174,6 +177,31 @@ const confOptions = {
 }
 const conf = require('@tsmx/secure-config')(confOptions);
 ```
+
+### prefix
+
+Type: `String`
+Default: `config`
+
+Use this parameter to change the default file name pattern from `config-[NODE_ENV].json` to `[prefix]-[NODE_ENV].json` for loading files with deviating names or additional ones. The value of `NODE_ENV` will be evaluated as described in the [naming conventions](#naming-conventions).
+
+To load multiple configurations, use the following pattern in your code.
+
+```js
+const secureConf = require('@tsmx/secure-config');
+const config = secureConf();
+const myconf = secureConf({ prefix: 'myconf', keyVariable: 'MYCONF_KEY' });
+```
+
+This example will load the default `config.json` using the the key from environment variable `CONFIG_ENCRYPTION_KEY` as well as the additional `myconf.json` using  the key from `MYCONF_KEY`. Note that different configurations should use different encryption keys. 
+
+Depending on the value of `NODE_ENV` the following configuration files will be loaded in this example.
+
+| Value of NODE_ENV | variable             | Filename                                                   | 
+|-------------------|----------------------|------------------------------------------------------------|
+| not set           | `config`<br>`myconf` | conf/config.json<br>conf/myconf.json                       | 
+| `production`      | `config`<br>`myconf` | conf/config-production.json<br>conf/myconf-production.json | 
+| `test`            | `config`<br>`myconf` | conf/config-test.json<br>conf/myconfig-test.json           |
 
 ## Injecting the decryption key
 
@@ -272,6 +300,9 @@ const conf = require('@tsmx/secure-config')();
 
 ### 2.1.0
 - Support for encrypted properties of objects in arrays added, e.g. `{  configArray: [ { key: 'ENCRYPTED|...' }, { key: 'ENCRYPTED|... ' } ] }`
+
+### 2.2.0
+- Support for loading multiple configurations with new option [prefix](#prefix) added.
 
 ## Test
 

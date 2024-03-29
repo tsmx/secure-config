@@ -1,5 +1,8 @@
 describe('secure-config basic features test suite (v1 features)', () => {
 
+    const key = '0123456789qwertzuiopasdfghjklyxc';
+    const keyHex = '9af7d400be4705147dc724db25bfd2513aa11d6013d7bf7bdb2bfe050593bd0f';
+
     beforeEach(() => {
         jest.resetModules();
         delete process.env['CONFIG_ENCRYPTION_KEY'];
@@ -7,7 +10,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
     });
 
     it('tests a successful production configuration retrieval', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'production';
         const conf = require('../secure-config')();
         expect(conf.database.host).toBe('db.prod.com');
@@ -23,7 +26,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
     });
 
     it('tests a successful configuration retrieval with a hexadecimal key', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = '9af7d400be4705147dc724db25bfd2513aa11d6013d7bf7bdb2bfe050593bd0f';
+        process.env['CONFIG_ENCRYPTION_KEY'] = keyHex;
         process.env['NODE_ENV'] = 'hex';
         const conf = require('../secure-config')();
         expect(conf.database.host).toBe('db.prod.com');
@@ -38,8 +41,7 @@ describe('secure-config basic features test suite (v1 features)', () => {
     });
 
     it('tests a successful development configuration retrieval', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
-        process.env['NODE_ENV'] = '';
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
         const conf = require('../secure-config')();
         expect(conf.database.host).toBe('127.0.0.1');
         expect(conf.database.user).toBe('SecretUser');
@@ -61,10 +63,11 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.testarray[5].length).toEqual(1);
         expect(conf.testarray[5][0].subArrayItemKey).toEqual('subArrayItemValue');
         expect(conf.nullvalue).toBe(null);
+        expect(conf.info).toBeUndefined();
     });
 
     it('tests a successful configuration retrieval without any encryption', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'unencrypted';
         const conf = require('../secure-config')();
         expect(conf.database.host).toBe('127.0.0.1');
@@ -88,9 +91,9 @@ describe('secure-config basic features test suite (v1 features)', () => {
     });
 
     it('tests a failed configuration retrieval because of a not existing configuration file', () => {
-        process.env['CONFIG_ENCRYPTION_KEY'] = '0123456789qwertzuiopasdfghjklyxc';
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'UNKNOWN';
-        expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN does not exist.');
+        expect(() => { require('../secure-config')(); }).toThrow('Configuration file for NODE_ENV UNKNOWN and prefix config does not exist.');
     });
 
     it('tests a failed configuration retrieval because of a wrong key', () => {

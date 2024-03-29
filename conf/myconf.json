@@ -1,0 +1,35 @@
+{
+    "info": "myconf",
+    "database": {
+      "host": "127.0.0.1",
+      "user": "ENCRYPTED|28ddaa4fbf5eac1f9c7b050a8b82bf29|44d1ebbb6061a343ac5fc1372cbfcfc8",
+      "password": "ENCRYPTED|7b78c16e0673ba6ecce5cff91295c80c|14f74d145744866f6da8ba503e08b123"
+    },
+    "filestorage": {
+      "type": "local",
+      "params": {
+        "folder": "/tmp/storage",
+        "storagepass": "ENCRYPTED|838bfe759ba8e81e406247dbbbabe734|b3a5dbb7630727173452fa81fff21c81"
+      }
+    },
+    "testarray": [
+      "one",
+      "two",
+      "three",
+      {
+        "arrayItemKey": "ENCRYPTED|02dde445bdf8a778d0c9e26ee3aaff9e|4cdbae5d24f59e9bb118da7a990d73c3",
+        "additionalItem1": "value1"
+      },
+      {
+        "arrayItemKey": "ENCRYPTED|425b976821766fab40a5139f5a5e432f|3d5154d7ed4c8ccb6f24edbcd2b8a035",
+        "additionalItem1": "value1",
+        "additionalItem2": 12
+      },
+      [
+        {
+          "subArrayItemKey": "ENCRYPTED|cbc2d78c8013012e31b77689a07856c3|6fe82c8c73e164e84f433e3acde6b02f9dddc22d33ec34144661c244d5ce53dc"
+        }
+      ]
+    ],
+    "nullvalue": null
+  }

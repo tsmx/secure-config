@@ -1,0 +1,24 @@
+{
+  "info": "myconf",
+  "database": {
+    "host": "db.prod.com",
+    "user": "ENCRYPTED|b0e52caf495d99722a8d312e07f7fa18|49090007d4f09abf693a5c4b0b8e367b",
+    "password": "ENCRYPTED|10f532c0077263a4aeccae64a5f3061d|5712efda8d9ab42bbfbb6d79b1c440accaabf4646ee5c5e2b9a7afa6c51ac750"
+  },
+  "filestorage": {
+    "type": "local",
+    "params": {
+      "folder": "/tmp/storage",
+      "storagepass": "ENCRYPTED|c89cc6f1cf93b7867160d09f35834c9e|e6badfe949e27579dea4d4ab6307e24add2a8774a5634f0829227850267e6674"
+    }
+  },
+  "testarray": [
+    {
+      "arrayItemKey": "ENCRYPTED|83a0315904b7f82bcd06c16f0046862e|9f6804b3e075952d2d8e0738265551bb"
+    },
+    {
+      "arrayItemKey": "ENCRYPTED|b3385ef6fe34a6f31ce6341d9f59d4dc|81f0ce412d09968355e65873648a0d6b"
+    }
+  ],
+  "__hmac": "8b8fa183339c8b9c98240ffb3940a558dbec5069b8544120fd9f7597badae200"
+}
