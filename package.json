@@ -37,7 +37,10 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.41.0",
+    "@eslint/js": "^9.8.0",
+    "eslint": "^9.8.0",
+    "eslint-plugin-jest": "^28.8.0",
+    "globals": "^15.9.0",
     "jest": "^29.7.0"
   },
   "dependencies": {
