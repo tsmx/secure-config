@@ -52,8 +52,10 @@ function decryptConfig(conf, confKey) {
 
 function getConfigPath(options) {
     const prefix = getOptValue(options, 'prefix', defaultFilePrefix);
+    // Allow to store the config in shared package in monorepo AND/OR use import.meta or __dirname to select the path
+    const dirname = getOptValue(options, 'directory', path.join(process.cwd(), defaultDirectory));
     const confFileName = prefix + (process.env.NODE_ENV ? '-' + process.env.NODE_ENV : '') + '.json';
-    const confPath = path.join(process.cwd(), defaultDirectory, confFileName);
+    const confPath = path.join(directory, confFileName);
     if (!fs.existsSync(confPath)) {
         throw new Error(`Configuration file for NODE_ENV ${process.env.NODE_ENV} and prefix ${prefix} does not exist.`);
     }
