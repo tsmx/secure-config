@@ -97,6 +97,23 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
         expect(myconf.database.password).toBe('SecretPassword-Prod');
     });
 
+    it('tests a successful production configuration retrieval with custom directory', () => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = confKey;
+        process.env['NODE_ENV'] = 'production';
+        const conf = require('../secure-config')({ directory: path.join(process.cwd(), 'test/configurations') });
+        expect(conf.info).toEqual('production-custom-dir');
+        expect(conf.database.host).toBe('db.prod.com');
+        expect(conf.database.user).toBe('SecretUser-Prod');
+        expect(conf.database.password).toBe('SecretPassword-Prod');
+        expect(conf.filestorage.type).toBe('local');
+        expect(conf.filestorage.params.folder).toBe('/tmp/storage');
+        expect(conf.filestorage.params.storagepass).toBe('StoragePassword-Prod');
+        expect(conf.testarray.length).toEqual(2);
+        expect(conf.testarray[0].arrayItemKey).toEqual('itemValue1');
+        expect(conf.testarray[1].arrayItemKey).toEqual('itemValue2');
+
+    });
+
     it('tests a successful production configuration retrieval with custom file prefix and custom directory', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = myconfKey;
         const conf = require('../secure-config')({ prefix: 'myconf', directory: path.join(process.cwd(), 'test/configurations') });
