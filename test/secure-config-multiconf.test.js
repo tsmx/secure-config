@@ -1,3 +1,5 @@
+const path = require('path');
+
 describe('secure-config multiconf feature test suite (v2 features)', () => {
 
     const myconfKey = '11c4b6c3cdb7ebaff74a7a340d30c45fd2f7a49d6d0b56badb300dbe49f233ec';
@@ -93,6 +95,32 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
         expect(myconf.database.host).toBe('db.prod.com');
         expect(myconf.database.user).toBe('SecretUser-Prod');
         expect(myconf.database.password).toBe('SecretPassword-Prod');
+    });
+
+    it('tests a successful production configuration retrieval with custom file prefix and custom directory', () => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = myconfKey;
+        const conf = require('../secure-config')({ prefix: 'myconf', directory: path.join(process.cwd(), 'test/configurations') });
+        expect(conf.info).toEqual('myconf-custom-dir');
+        expect(conf.database.host).toBe('127.0.0.1');
+        expect(conf.database.user).toBe('SecretUser');
+        expect(conf.database.password).toBe('SecretPassword');
+        expect(conf.filestorage.type).toBe('local');
+        expect(conf.filestorage.params.folder).toBe('/tmp/storage');
+        expect(conf.filestorage.params.storagepass).toBe('StoragePassword');
+        expect(conf.testarray).toBeDefined();
+        expect(Array.isArray(conf.testarray)).toBeTruthy();
+        expect(conf.testarray.length).toBe(6);
+        expect(conf.testarray[0]).toEqual('one');
+        expect(conf.testarray[1]).toEqual('two');
+        expect(conf.testarray[2]).toEqual('three');
+        expect(conf.testarray[3].arrayItemKey).toEqual('itemValue1');
+        expect(conf.testarray[3].additionalItem1).toEqual('value1');
+        expect(conf.testarray[4].arrayItemKey).toEqual('itemValue2');
+        expect(conf.testarray[4].additionalItem1).toEqual('value1');
+        expect(conf.testarray[4].additionalItem2).toEqual(12);
+        expect(conf.testarray[5].length).toEqual(1);
+        expect(conf.testarray[5][0].subArrayItemKey).toEqual('subArrayItemValue');
+        expect(conf.nullvalue).toBe(null);
     });
 
 });
