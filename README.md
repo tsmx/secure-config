@@ -63,7 +63,7 @@ is used. An exception will be thrown if no configuration file is found.
 
 To change the default configuration file name or loading multiple configuration files you can pass the [prefix](#prefix) option.
 
-All configuration files must be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`).  
+By default, all configuration files are expected be located in a `conf/` directory of the current running app, meaning a direct subdirectory of the current working directory (`CWD/conf/`). To overwrite this behaviour, you can pass the [directory](#directory) option.
 
 ### Example structure
 
@@ -104,6 +104,7 @@ const confOptions = {
   keyVariable: 'CUSTOM_CONFIG_KEY',
   hmacValidation: true, 
   hmacProperty: '_signature',
+  directory: '/path/to/config',
   prefix: 'myconf'
 }
 
@@ -176,6 +177,32 @@ const confOptions = {
     hmacProperty: '_signature'
 }
 const conf = require('@tsmx/secure-config')(confOptions);
+```
+
+### directory
+
+Type: `String`
+Default: `./conf/`
+
+Use this parameter to change the directory where the configuration files should be loaded from.
+
+E.g. if the files are located under `/var/myapp/configurations`:
+
+```js
+const confOptions = {
+    directory: '/var/myapp/configurations'
+}
+const conf = require('@tsmx/secure-config')(confOptions);
+```
+
+This option can be combined with the [prefix](#prefix) option to control the configuration filenames within the directory. [Naming conventions](#naming-conventions) according to `NODE_ENV` are applied as normal.
+
+Hint: Setting a relative path within the current running app or an unit-test can easily be achieved by using `path.join` with `process.cwd`. E.g. if the files are located in `./test/configurations`.
+
+```js
+const confOptions = {
+    directory: path.join(process.cwd(), 'test/configurations')
+}
 ```
 
 ### prefix
@@ -303,6 +330,9 @@ const conf = require('@tsmx/secure-config')();
 
 ### 2.2.0
 - Support for loading multiple configurations with new option [prefix](#prefix) added.
+
+### 2.3.0
+- Support for custom configuration directory with new option [directory](#directory) added.
 
 ## Test
 
