@@ -197,7 +197,7 @@ const conf = require('@tsmx/secure-config')(confOptions);
 
 This option can be combined with the [prefix](#prefix) option to control the configuration filenames within the directory. [Naming conventions](#naming-conventions) according to `NODE_ENV` are applied as normal.
 
-Hint: Setting a relative path within the current running app or an unit-test can easily be achieved by using `path.join` with `process.cwd`. E.g. if the files are located in `./test/configurations`.
+***Hint:*** Setting a relative path within the current running app or an unit-test can easily be achieved by using `path.join` with `process.cwd`. E.g. if the files are located in `./test/configurations`.
 
 ```js
 const confOptions = {
@@ -332,7 +332,7 @@ const conf = require('@tsmx/secure-config')();
 - Support for loading multiple configurations with new option [prefix](#prefix) added.
 
 ### 2.3.0
-- Support for custom configuration directory with new option [directory](#directory) added.
+- Support for custom configuration file path with new option [directory](#directory) added.
 
 ## Test
 
