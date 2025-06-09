@@ -15,8 +15,8 @@ jobs:
         node-version: 22
     - run: npm ci
     - name: Create SBOM
-      run: npx @cyclonedx/cyclonedx-npm --omit dev -o ./sbom/secure-config-sbom.json
+      run: npx @cyclonedx/cyclonedx-npm --omit dev -o ./secure-config-sbom.json
     - uses: actions/upload-artifact@v4
       with:
         name: sbom-artifact
-        path: sbom/
+        path: ./secure-config-sbom.json
