@@ -37,6 +37,7 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "^3.0.0",
     "@eslint/js": "^9.8.0",
     "eslint": "^9.8.0",
     "eslint-plugin-jest": "^28.8.0",
