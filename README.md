@@ -8,15 +8,15 @@
 
 > Easy and secure configuration management. 
 
-Manage JSON based configurations with encrypted secrets and optional HMAC validation to ensure data integrity.
+Manage JSON based configurations with AES encrypted secrets and optional HMAC validation to ensure data integrity.
 
-Works with CommonJS and ESM/ECMAScript.
+Works with CommonJS and ESM/ECMAScript. Ships with a [SBOM](#SBOM) to meet regulatory requirements.
 
 If you are upgrading from an older version prior to 2.x please read this [important note](#upgrading-from-versions-prior-to-2x).
 
 ## Usage
 
-1. Encrypt sensitive data in your JSON configuration file. Most easy way to do this is using the [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool).
+1. Encrypt sensitive data in your JSON configuration file. Easiest way to do this is using the [secure-config-tool](https://www.npmjs.com/package/@tsmx/secure-config-tool).
 For more details please see [generating an encrypted configuration](#generating-an-encrypted-configuration) and [naming conventions](#naming-conventions).
     ```json
     {
@@ -323,6 +323,10 @@ const conf = require('@tsmx/secure-config')();
 // use conf as you did before...
 ```
 
+## SBOM
+
+This package ships with a CycloneDX software bill of materials (SBOM) v1.6 in JSON format as required by some regulatory like the BSI TR-03183. The file is located under the `sbom` folder.
+
 ## Changelog
 
 ### 2.1.0
@@ -333,6 +337,9 @@ const conf = require('@tsmx/secure-config')();
 
 ### 2.3.0
 - Support for custom configuration file path with new option [directory](#directory) added.
+
+### 2.3.1
+- [SBOM](#SBOM) added to shipped files
 
 ## Test
 
