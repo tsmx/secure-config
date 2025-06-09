@@ -1,0 +1,304 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "serialNumber": "urn:uuid:f1e1a6ee-d8ed-4015-9c9d-c270886045b9",
+  "metadata": {
+    "timestamp": "2025-06-09T19:47:21.073Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "npm",
+          "version": "10.9.2"
+        },
+        {
+          "type": "application",
+          "name": "cyclonedx-npm",
+          "group": "@cyclonedx",
+          "version": "3.0.0",
+          "author": "Jan Kowalleck",
+          "description": "Create CycloneDX Software Bill of Materials (SBOM) from NPM projects.",
+          "licenses": [
+            {
+              "license": {
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "externalReferences": [
+            {
+              "url": "git+https://github.com/CycloneDX/cyclonedx-node-npm.git",
+              "type": "vcs",
+              "comment": "as detected from PackageJson property \"repository.url\""
+            },
+            {
+              "url": "https://github.com/CycloneDX/cyclonedx-node-npm#readme",
+              "type": "website",
+              "comment": "as detected from PackageJson property \"homepage\""
+            },
+            {
+              "url": "https://github.com/CycloneDX/cyclonedx-node-npm/issues",
+              "type": "issue-tracker",
+              "comment": "as detected from PackageJson property \"bugs.url\""
+            }
+          ]
+        },
+        {
+          "type": "library",
+          "name": "cyclonedx-library",
+          "group": "@cyclonedx",
+          "version": "8.3.0",
+          "author": "Jan Kowalleck",
+          "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
+          "licenses": [
+            {
+              "license": {
+                "id": "Apache-2.0"
+              }
+            }
+          ],
+          "externalReferences": [
+            {
+              "url": "git+https://github.com/CycloneDX/cyclonedx-javascript-library.git",
+              "type": "vcs",
+              "comment": "as detected from PackageJson property \"repository.url\""
+            },
+            {
+              "url": "https://github.com/CycloneDX/cyclonedx-javascript-library#readme",
+              "type": "website",
+              "comment": "as detected from PackageJson property \"homepage\""
+            },
+            {
+              "url": "https://github.com/CycloneDX/cyclonedx-javascript-library/issues",
+              "type": "issue-tracker",
+              "comment": "as detected from PackageJson property \"bugs.url\""
+            }
+          ]
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "secure-config",
+      "group": "@tsmx",
+      "version": "2.3.0",
+      "bom-ref": "@tsmx/secure-config@2.3.0",
+      "author": "tsmx",
+      "description": "Easy and secure configuration management. JSON based encrypted secrets, optional HMAC validation.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40tsmx/secure-config@2.3.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
+      "externalReferences": [
+        {
+          "url": "git+https://github.com/tsmx/secure-config.git",
+          "type": "vcs",
+          "comment": "as detected from PackageJson property \"repository.url\""
+        },
+        {
+          "url": "https://tsmx.net/secure-config/",
+          "type": "website",
+          "comment": "as detected from PackageJson property \"homepage\""
+        },
+        {
+          "url": "https://github.com/tsmx/secure-config/issues",
+          "type": "issue-tracker",
+          "comment": "as detected from PackageJson property \"bugs.url\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": ""
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "json-traverse",
+      "group": "@tsmx",
+      "version": "1.0.8",
+      "bom-ref": "@tsmx/json-traverse@1.0.8",
+      "author": "tsmx",
+      "description": "Traverse and manipulate JSON objects.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40tsmx/json-traverse@1.0.8",
+      "externalReferences": [
+        {
+          "url": "git+https://github.com/tsmx/json-traverse.git",
+          "type": "vcs",
+          "comment": "as detected from PackageJson property \"repository.url\""
+        },
+        {
+          "url": "https://github.com/tsmx/json-traverse#readme",
+          "type": "website",
+          "comment": "as detected from PackageJson property \"homepage\""
+        },
+        {
+          "url": "https://github.com/tsmx/json-traverse/issues",
+          "type": "issue-tracker",
+          "comment": "as detected from PackageJson property \"bugs.url\""
+        },
+        {
+          "url": "https://registry.npmjs.org/@tsmx/json-traverse/-/json-traverse-1.0.8.tgz",
+          "type": "distribution",
+          "hashes": [
+            {
+              "alg": "SHA-512",
+              "content": "addb6af81cd27d15eb02dcf7c4e7c139ae9d73dcb0b310c18d16e84ebaff5d759e61e57bf84477ac2aab122560ba904fbb901482f6d897139c1ffce7d648da8a"
+            }
+          ],
+          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@tsmx/json-traverse"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "object-hmac",
+      "group": "@tsmx",
+      "version": "1.1.5",
+      "bom-ref": "@tsmx/object-hmac@1.1.5",
+      "author": "tsmx",
+      "description": "Create and verify HMAC's for JSON objects",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40tsmx/object-hmac@1.1.5",
+      "externalReferences": [
+        {
+          "url": "git+https://github.com/tsmx/object-hmac.git",
+          "type": "vcs",
+          "comment": "as detected from PackageJson property \"repository.url\""
+        },
+        {
+          "url": "https://github.com/tsmx/object-hmac#readme",
+          "type": "website",
+          "comment": "as detected from PackageJson property \"homepage\""
+        },
+        {
+          "url": "https://github.com/tsmx/object-hmac/issues",
+          "type": "issue-tracker",
+          "comment": "as detected from PackageJson property \"bugs.url\""
+        },
+        {
+          "url": "https://registry.npmjs.org/@tsmx/object-hmac/-/object-hmac-1.1.5.tgz",
+          "type": "distribution",
+          "hashes": [
+            {
+              "alg": "SHA-512",
+              "content": "ed8fe65dfb66177df5662e2a4cc56f5c612dcb4212302a621e8599c6af083356ad2ea221b71af6d1019c9ae5526da1856767b0a7f4cfb06ed99d70846c028075"
+            }
+          ],
+          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@tsmx/object-hmac"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "string-crypto",
+      "group": "@tsmx",
+      "version": "1.0.6",
+      "bom-ref": "@tsmx/string-crypto@1.0.6",
+      "author": "tsmx",
+      "description": "Encrypt and decrypt strings.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT",
+            "acknowledgement": "declared"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40tsmx/string-crypto@1.0.6",
+      "externalReferences": [
+        {
+          "url": "git+https://github.com/tsmx/string-crypto.git",
+          "type": "vcs",
+          "comment": "as detected from PackageJson property \"repository.url\""
+        },
+        {
+          "url": "https://github.com/tsmx/string-crypto#readme",
+          "type": "website",
+          "comment": "as detected from PackageJson property \"homepage\""
+        },
+        {
+          "url": "https://github.com/tsmx/string-crypto/issues",
+          "type": "issue-tracker",
+          "comment": "as detected from PackageJson property \"bugs.url\""
+        },
+        {
+          "url": "https://registry.npmjs.org/@tsmx/string-crypto/-/string-crypto-1.0.6.tgz",
+          "type": "distribution",
+          "hashes": [
+            {
+              "alg": "SHA-512",
+              "content": "2ba37d87e647bb1dc5f64d14610f03dab8d0cd8d5021439e1876a8a2be03cd5ab1eae9ca17420e657bc75bb7746946c7264d6f284c26deb2c9069fd5027f5167"
+            }
+          ],
+          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@tsmx/string-crypto"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "@tsmx/secure-config@2.3.0",
+      "dependsOn": [
+        "@tsmx/json-traverse@1.0.8",
+        "@tsmx/object-hmac@1.1.5",
+        "@tsmx/string-crypto@1.0.6"
+      ]
+    },
+    {
+      "ref": "@tsmx/json-traverse@1.0.8"
+    },
+    {
+      "ref": "@tsmx/object-hmac@1.1.5",
+      "dependsOn": [
+        "@tsmx/json-traverse@1.0.8"
+      ]
+    },
+    {
+      "ref": "@tsmx/string-crypto@1.0.6"
+    }
+  ]
+}

@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test-coverage": "jest --coverage"
+    "test-coverage": "jest --coverage",
+    "sbom": "npx @cyclonedx/cyclonedx-npm --omit dev -o ./sbom/secure-config-sbom.json"
   },
   "repository": {
     "type": "git",
