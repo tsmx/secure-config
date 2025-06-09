@@ -23,3 +23,5 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create SBOM
+      run: npx @cyclonedx/cyclonedx-npm --omit dev -o ./sbom/secure-config-sbom.json
