@@ -25,3 +25,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create SBOM
       run: npx @cyclonedx/cyclonedx-npm --omit dev -o ./sbom/secure-config-sbom.json
+    - uses: actions/upload-artifact@v4
+      with:
+        name: sbom-artifact
+        path: sbom/
