@@ -22,7 +22,6 @@ describe('secure-config basic features test suite (v1 features)', () => {
         expect(conf.testarray.length).toEqual(2);
         expect(conf.testarray[0].arrayItemKey).toEqual('itemValue1');
         expect(conf.testarray[1].arrayItemKey).toEqual('itemValue2');
-
     });
 
     it('tests a successful configuration retrieval with a hexadecimal key', () => {

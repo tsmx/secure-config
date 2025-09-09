@@ -54,7 +54,12 @@ function decryptConfig(conf, confKey) {
 function exportEnvVars(conf, exports) {
     const callbacks = {
         processValue: (key, value, level, path, isObjectRoot) => {
-            const exportItem = exports.find(item => item.key === key);
+            let searchKey = '';
+            if(path && path.length > 0) {
+                searchKey = path.join('.') + '.';
+            }
+            searchKey += key;
+            const exportItem = exports.find(item => item.key === searchKey);
             if (exportItem) {
                 process.env[exportItem.envVar] = value;
             }
