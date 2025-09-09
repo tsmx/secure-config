@@ -10,6 +10,7 @@ const defaultFilePrefix = 'config';
 const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 const defaultHmacValidation = false;
 const defaultHmacProperty = '__hmac';
+const defaultExports = [];
 
 function getOptValue(options, optName, defaultOptValue) {
     if (options && options[optName]) {
@@ -50,6 +51,18 @@ function decryptConfig(conf, confKey) {
     return conf;
 }
 
+function exportEnvVars(conf, exports) {
+    const callbacks = {
+        processValue: (key, value, level, path, isObjectRoot) => {
+            const exportItem = exports.find(item => item.key === key);
+            if (exportItem) {
+                process.env[exportItem.envVar] = value;
+            }
+        }
+    };
+    jt.traverse(conf, callbacks);
+}
+
 function getConfigPath(options) {
     const prefix = getOptValue(options, 'prefix', defaultFilePrefix);
     const directory = getOptValue(options, 'directory', path.join(process.cwd(), defaultDirectory));
@@ -69,6 +82,10 @@ module.exports = (options) => {
         if (!oh.verifyHmac(conf, key, getOptValue(options, 'hmacProperty', defaultHmacProperty))) {
             throw new Error('HMAC validation failed.');
         }
+    }
+    const exports = getOptValue(options, 'exports', defaultExports);
+    if (exports.length > 0) {
+        exportEnvVars(conf, exports);
     }
     return conf;
 };
