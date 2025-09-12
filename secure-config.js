@@ -53,7 +53,7 @@ function decryptConfig(conf, confKey) {
 
 function exportEnvVars(conf, exports) {
     const callbacks = {
-        processValue: (key, value, level, path, isObjectRoot) => {
+        processValue: (key, value, level, path) => {
             let searchKey = '';
             if(path && path.length > 0) {
                 searchKey = path.join('.') + '.';

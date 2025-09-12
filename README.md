@@ -8,7 +8,11 @@
 
 > Easy and secure configuration management. 
 
-Manage JSON based configurations with AES encrypted secrets and optional HMAC validation to ensure data integrity.
+Manage JSON based configurations with AES encrypted secrets for multiple environments/stages.
+
+Optional features:
+- HMAC validation of configurations to ensure data integrity
+- setting of environment variables out of configuration items 
 
 Works with CommonJS and ESM/ECMAScript. Ships with a [SBOM](#SBOM) to meet regulatory requirements.
 
@@ -44,7 +48,7 @@ For more details please see [generating an encrypted configuration](#generating-
       //...
     }
     ```
-    For further customization and advanced features like HMAC validation you can pass an options object - please refer to the [options section](#options).
+    For further customization and advanced features like HMAC validation and the setting of env vars you can pass an options object - please refer to the [options section](#options).
 
 3. Run your app. See below for different [options on how to pass the key](#injecting-the-decryption-key).
    ```bash
@@ -105,7 +109,11 @@ const confOptions = {
   hmacValidation: true, 
   hmacProperty: '_signature',
   directory: '/path/to/config',
-  prefix: 'myconf'
+  prefix: 'myconf',
+  exports: [
+    { key: 'database.user', envVar: 'DB_USER' },
+    { key: 'database.password', envVar: 'DB_PASSWORD' }
+  ]
 }
 
 // CommonJS
