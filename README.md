@@ -238,6 +238,41 @@ Depending on the value of `NODE_ENV` the following configuration files will be l
 | `production`      | `config`<br>`myconf` | conf/config-production.json<br>conf/myconf-production.json | 
 | `test`            | `config`<br>`myconf` | conf/config-test.json<br>conf/myconfig-test.json           |
 
+### exports
+
+Type: `Array`
+Default: `[]`
+
+With `exports` you can pass an array of objects each having a `key` and `envVar` property where:
+- `key` is the name of a configuration item
+- `envVar` is the name of the environment variable to be set with the value of the configuration item
+
+If the configuration item is not at the top level of the configuration JSON, simply pass the full path to it using dotted notation (see example below). 
+
+Suppose you have the following configuation...
+
+```json
+{
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  }
+ }
+```
+
+...and need to set the database user and password as environment variables `DB_USER` and `DB_PASSWORD`. Then simply pass the following `exports` array.
+
+```js
+const exports = [
+  { key: 'database.user', envVar: 'DB_USER' },
+  { key: 'database.password', envVar: 'DB_PASSWORD' }
+];
+const conf = require('@tsmx/secure-config')({ exports });
+```
+
+This will automatically set the env vars `DB_USER` and `DB_PASSWORD` with the decrypted configuration item values.
+
 ## Injecting the decryption key
 
 The key for decrypting the encrypted values is derived from an environment variable. The default name of this variable is `CONFIG_ENCRYPTION_KEY`, but you can also pass any other name via [options](#options). You can set the environment variable whatever way is most suitable, e.g.
