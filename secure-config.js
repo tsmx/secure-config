@@ -60,7 +60,7 @@ function exportEnvVars(conf, exports) {
             }
             searchKey += key;
             const exportItem = exports.find(item => item.key === searchKey);
-            if (exportItem) {
+            if (exportItem && typeof(exportItem.envVar === 'string')) {
                 process.env[exportItem.envVar] = value;
             }
         }

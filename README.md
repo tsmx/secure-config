@@ -246,6 +246,7 @@ Default: `[]`
 With `exports` you can pass an array of objects each having a `key` and `envVar` property where:
 - `key` is the name of a configuration item
 - `envVar` is the name of the environment variable to be set with the value of the configuration item
+- both properties must be of type string
 
 If the configuration item is not at the top level of the configuration JSON, simply pass the full path to it using dotted notation (see example below). 
 
@@ -266,12 +267,16 @@ Suppose you have the following configuation...
 ```js
 const exports = [
   { key: 'database.user', envVar: 'DB_USER' },
-  { key: 'database.password', envVar: 'DB_PASSWORD' }
+  { key: 'database.pass', envVar: 'DB_PASSWORD' }
 ];
 const conf = require('@tsmx/secure-config')({ exports });
 ```
 
 This will automatically set the env vars `DB_USER` and `DB_PASSWORD` with the decrypted configuration item values.
+
+Notes:
+- If the `exports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
+- If `exports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
 
 ## Injecting the decryption key
 
