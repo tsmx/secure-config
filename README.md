@@ -12,7 +12,7 @@ Manage JSON based configurations with AES encrypted secrets for multiple environ
 
 Optional features:
 - [HMAC validation](#hmacValidation) of configurations to ensure data integrity
-- Setting of environment variables out of configuration items 
+- Setting of [environment variables](#envVarExports) out of configuration items 
 
 Works with CommonJS and ESM/ECMAScript. Ships with a [SBOM](#SBOM) to meet regulatory requirements.
 
@@ -243,12 +243,10 @@ Depending on the value of `NODE_ENV` the following configuration files will be l
 Type: `Array`
 Default: `[]`
 
-With `envVarExports` you can set environment variables out of configuration items by passing an array of objects each having a `key` and `envVar` property where:
-- `key` is the name of a configuration item
+With the `envVarExports` option (or alternatively the `__envVarExports` configuration key) you can set environment variables out of configuration items by passing an array of objects each having a `key` and `envVar` property where:
+- `key` is the name of a configuration item, if the configuration item is not at the top level of the configuration JSON, simply pass the full path to it using dotted notation (see example below)
 - `envVar` is the name of the environment variable to be set with the value of the configuration item
 - both properties must be of type string
-
-If the configuration item is not at the top level of the configuration JSON, simply pass the full path to it using dotted notation (see example below). 
 
 Suppose you have the following configuation...
 
@@ -262,7 +260,9 @@ Suppose you have the following configuation...
  }
 ```
 
-...and need to set the database user and password as environment variables `DB_USER` and `DB_PASSWORD`. Then simply pass the following `envVarExports` array.
+...and need to set the database user and password as environment variables `DB_USER` and `DB_PASSWORD`. Then simply pass the following `envVarExports` array either programmatically or directly in the configuration via the `__envVarExports` key.
+
+Programmatic passing:
 
 ```js
 const envVarExports = [
@@ -272,11 +272,34 @@ const envVarExports = [
 const conf = require('@tsmx/secure-config')({ envVarExports });
 ```
 
-This will automatically set the env vars `DB_USER` and `DB_PASSWORD` with the decrypted configuration item values.
+Passing via configuration:
+
+```JSON
+{
+  "database": {
+    "host": "127.0.0.1",
+    "user": "ENCRYPTED|50ceed2f97223100fbdf842ecbd4541f|df9ed9002bfc956eb14b1d2f8d960a11",
+    "pass": "ENCRYPTED|8fbf6ded36bcb15bd4734b3dc78f2890|7463b2ea8ed2c8d71272ac2e41761a35"
+  },
+  "__envVarExports": [
+    {
+      "key": "database.user",
+      "envVar": "DB_USER"
+    },
+    {
+      "key": "database.pass",
+      "envVar": "DB_PASSWORD"
+    }
+  ]
+}
+```
+
+Both approaches will automatically set the env vars `DB_USER` and `DB_PASSWORD` with the decrypted configuration item values.
 
 Notes:
 - If the `envVarExports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
 - If `envVarExports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
+- If the `envVarExports` option AND the `__envVarExports` configuration key both are present, the programmatic passed arry will take precedence.
 
 ## Injecting the decryption key
 
@@ -388,10 +411,3 @@ This package ships with a CycloneDX software bill of materials (SBOM) v1.6 in JS
 
 ### 2.3.1
 - [SBOM](#SBOM) added to shipped files
-
-## Test
-
-```
-npm install
-npm test
-```
