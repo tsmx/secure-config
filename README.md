@@ -299,7 +299,7 @@ Both approaches will automatically set the env vars `DB_USER` and `DB_PASSWORD` 
 Notes:
 - If the `envVarExports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
 - If `envVarExports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
-- If the `envVarExports` option AND the `__envVarExports` configuration key both are present, the programmatic passed arry will take precedence.
+- If the `envVarExports` option AND the `__envVarExports` configuration key both are present, the programmatic passed array will take precedence.
 
 ## Injecting the decryption key
 
@@ -411,3 +411,6 @@ This package ships with a CycloneDX software bill of materials (SBOM) v1.6 in JS
 
 ### 2.3.1
 - [SBOM](#SBOM) added to shipped files
+
+### 2.4.0
+- Setting of [environment variables](#envVarExports) added.
