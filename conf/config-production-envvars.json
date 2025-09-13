@@ -1,0 +1,18 @@
+{
+  "database": {
+    "host": "db.prod.com",
+    "user": "ENCRYPTED|5cf569c8229d05034f173119795158fd|1d71ad3d86e402d2ebb8b2a1ef796862",
+    "password": "ENCRYPTED|9a4e5fdbbfe10b1d2b81a9ec9d46c6d1|95bf57f6ef988b80fa75577ed2da04c3b4549ac2de03c45fbbb8b4033b58b415"
+  },
+  "__envVarExports": [
+    {
+      "key": "database.user",
+      "envVar": "DB_USER"
+    },
+    {
+      "key": "database.password",
+      "envVar": "DB_PASSWORD"
+    }
+  ],
+  "__hmac": "e88edd201ea0175d611531c2325f8123af94d3c4b8fd418ca71cdea1cc25a81a"
+}

@@ -11,6 +11,7 @@ const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 const defaultHmacValidation = false;
 const defaultHmacProperty = '__hmac';
 const defaultEnvVarExports = [];
+const defaultEnvVarProperty = '__envVarExports';
 
 function getOptValue(options, optName, defaultOptValue) {
     if (options && options[optName]) {
@@ -88,8 +89,11 @@ module.exports = (options) => {
             throw new Error('HMAC validation failed.');
         }
     }
-    const exports = getOptValue(options, 'envVarExports', defaultEnvVarExports);
-    if (exports.length > 0) {
+    let exports = getOptValue(options, 'envVarExports', defaultEnvVarExports);
+    if(!Array.isArray(exports) || exports.length == 0) {
+        exports = conf[defaultEnvVarProperty];
+    }
+    if (Array.isArray(exports) && exports.length > 0) {
         exportEnvVars(conf, exports);
     }
     return conf;
