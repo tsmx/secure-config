@@ -10,7 +10,7 @@ const defaultFilePrefix = 'config';
 const defaultKeyVariableName = 'CONFIG_ENCRYPTION_KEY';
 const defaultHmacValidation = false;
 const defaultHmacProperty = '__hmac';
-const defaultExports = [];
+const defaultEnvVarExports = [];
 
 function getOptValue(options, optName, defaultOptValue) {
     if (options && options[optName]) {
@@ -88,7 +88,7 @@ module.exports = (options) => {
             throw new Error('HMAC validation failed.');
         }
     }
-    const exports = getOptValue(options, 'exports', defaultExports);
+    const exports = getOptValue(options, 'envVarExports', defaultEnvVarExports);
     if (exports.length > 0) {
         exportEnvVars(conf, exports);
     }

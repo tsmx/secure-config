@@ -13,7 +13,7 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
     it('tests a successful configuration retrieval with custom name and a top level env var setting', () => {
         expect(process.env['CONFIG_INFO']).toBeUndefined();
         process.env['CONFIG_ENCRYPTION_KEY'] = myconfKey;
-        const conf = require('../secure-config')({ prefix: 'myconf', exports: [{ key: 'info', envVar: 'CONFIG_INFO' }] });
+        const conf = require('../secure-config')({ prefix: 'myconf', envVarExports: [{ key: 'info', envVar: 'CONFIG_INFO' }] });
         expect(conf.info).toEqual('myconf');
         expect(process.env['CONFIG_INFO']).toBeDefined();
         expect(process.env['CONFIG_INFO']).toEqual('myconf');
@@ -22,13 +22,13 @@ describe('secure-config multiconf feature test suite (v2 features)', () => {
     it('tests a successful production configuration retrieval with multiple deep-level env var settings', () => {
         expect(process.env['DB_USER']).toBeUndefined();
         expect(process.env['DB_PASSWORD']).toBeUndefined();
-        const exports = [
+        const envVarExports = [
             { key: 'database.user', envVar: 'DB_USER' },
             { key: 'database.password', envVar: 'DB_PASSWORD' }
         ];
         process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'production';
-        const conf = require('../secure-config')({ exports });
+        const conf = require('../secure-config')({ envVarExports });
         expect(conf.database.host).toEqual('db.prod.com');
         expect(conf.database.user).toEqual('SecretUser-Prod');
         expect(conf.database.password).toEqual('SecretPassword-Prod');

@@ -11,8 +11,8 @@
 Manage JSON based configurations with AES encrypted secrets for multiple environments/stages.
 
 Optional features:
-- HMAC validation of configurations to ensure data integrity
-- setting of environment variables out of configuration items 
+- [HMAC validation](#hmacValidation) of configurations to ensure data integrity
+- Setting of environment variables out of configuration items 
 
 Works with CommonJS and ESM/ECMAScript. Ships with a [SBOM](#SBOM) to meet regulatory requirements.
 
@@ -110,7 +110,7 @@ const confOptions = {
   hmacProperty: '_signature',
   directory: '/path/to/config',
   prefix: 'myconf',
-  exports: [
+  envVarExports: [
     { key: 'database.user', envVar: 'DB_USER' },
     { key: 'database.password', envVar: 'DB_PASSWORD' }
   ]
@@ -238,12 +238,12 @@ Depending on the value of `NODE_ENV` the following configuration files will be l
 | `production`      | `config`<br>`myconf` | conf/config-production.json<br>conf/myconf-production.json | 
 | `test`            | `config`<br>`myconf` | conf/config-test.json<br>conf/myconfig-test.json           |
 
-### exports
+### envVarExports
 
 Type: `Array`
 Default: `[]`
 
-With `exports` you can pass an array of objects each having a `key` and `envVar` property where:
+With `envVarExports` you can set environment variables out of configuration items by passing an array of objects each having a `key` and `envVar` property where:
 - `key` is the name of a configuration item
 - `envVar` is the name of the environment variable to be set with the value of the configuration item
 - both properties must be of type string
@@ -262,21 +262,21 @@ Suppose you have the following configuation...
  }
 ```
 
-...and need to set the database user and password as environment variables `DB_USER` and `DB_PASSWORD`. Then simply pass the following `exports` array.
+...and need to set the database user and password as environment variables `DB_USER` and `DB_PASSWORD`. Then simply pass the following `envVarExports` array.
 
 ```js
-const exports = [
+const envVarExports = [
   { key: 'database.user', envVar: 'DB_USER' },
   { key: 'database.pass', envVar: 'DB_PASSWORD' }
 ];
-const conf = require('@tsmx/secure-config')({ exports });
+const conf = require('@tsmx/secure-config')({ envVarExports });
 ```
 
 This will automatically set the env vars `DB_USER` and `DB_PASSWORD` with the decrypted configuration item values.
 
 Notes:
-- If the `exports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
-- If `exports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
+- If the `envVarExports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
+- If `envVarExports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
 
 ## Injecting the decryption key
 
