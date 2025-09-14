@@ -81,14 +81,18 @@ function getConfigPath(options) {
 }
 
 module.exports = (options) => {
+    // load the configuration JSON
     let conf = require(getConfigPath(options));
+    // get the key and decrypt
     const key = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
     decryptConfig(conf, key);
+    // validate HMAC 
     if (getOptValue(options, 'hmacValidation', defaultHmacValidation)) {
         if (!oh.verifyHmac(conf, key, getOptValue(options, 'hmacProperty', defaultHmacProperty))) {
             throw new Error('HMAC validation failed.');
         }
     }
+    // export env vars as passed via options or in the configuration itself (options have precedence)
     let exports = getOptValue(options, 'envVarExports', defaultEnvVarExports);
     if(!Array.isArray(exports) || exports.length == 0) {
         exports = conf[defaultEnvVarProperty];
