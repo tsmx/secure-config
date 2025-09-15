@@ -81,4 +81,22 @@ describe('secure-config environment variables setting test suite', () => {
         expect(process.env['DB_PASSWORD_2']).toEqual('SecretPassword-Prod');
     });
 
+    it('tests a programmatic env var setting with multiple same keys, first should take effect', () => {
+        expect(process.env['DB_USER']).toBeUndefined();
+        expect(process.env['DB_USER_2']).toBeUndefined();
+        const envVarExports = [
+            { key: 'database.user', envVar: 'DB_USER' },
+            { key: 'database.user', envVar: 'DB_USER_2' }
+        ];
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
+        process.env['NODE_ENV'] = 'production';
+        const conf = require('../secure-config')({ envVarExports });
+        expect(conf.database.host).toEqual('db.prod.com');
+        expect(conf.database.user).toEqual('SecretUser-Prod');
+        expect(conf.database.password).toEqual('SecretPassword-Prod');
+        expect(process.env['DB_USER']).toBeDefined();
+        expect(process.env['DB_USER']).toEqual('SecretUser-Prod');
+        expect(process.env['DB_USER_2']).toBeUndefined();
+    });
+
 });
