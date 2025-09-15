@@ -3,21 +3,21 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "version": 1,
-  "serialNumber": "urn:uuid:f1e1a6ee-d8ed-4015-9c9d-c270886045b9",
+  "serialNumber": "urn:uuid:d7d9ec09-7b2d-4627-b919-d321db310a69",
   "metadata": {
-    "timestamp": "2025-06-09T19:47:21.073Z",
+    "timestamp": "2025-09-15T20:22:55.134Z",
     "tools": {
       "components": [
         {
           "type": "application",
           "name": "npm",
-          "version": "10.9.2"
+          "version": "10.9.3"
         },
         {
           "type": "application",
           "name": "cyclonedx-npm",
           "group": "@cyclonedx",
-          "version": "3.0.0",
+          "version": "3.1.0",
           "author": "Jan Kowalleck",
           "description": "Create CycloneDX Software Bill of Materials (SBOM) from NPM projects.",
           "licenses": [
@@ -49,7 +49,7 @@
           "type": "library",
           "name": "cyclonedx-library",
           "group": "@cyclonedx",
-          "version": "8.3.0",
+          "version": "8.6.0",
           "author": "Jan Kowalleck",
           "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
           "licenses": [
@@ -83,10 +83,10 @@
       "type": "application",
       "name": "secure-config",
       "group": "@tsmx",
-      "version": "2.3.0",
-      "bom-ref": "@tsmx/secure-config@2.3.0",
+      "version": "2.3.1",
+      "bom-ref": "@tsmx/secure-config@2.3.1",
       "author": "tsmx",
-      "description": "Easy and secure configuration management. JSON based encrypted secrets, optional HMAC validation.",
+      "description": "Easy and secure configuration management. JSON based - AES encrypted secrets - HMAC validation - env var export",
       "licenses": [
         {
           "license": {
@@ -95,7 +95,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/secure-config@2.3.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
+      "purl": "pkg:npm/%40tsmx/secure-config@2.3.1?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/secure-config.git",
@@ -281,7 +281,7 @@
   ],
   "dependencies": [
     {
-      "ref": "@tsmx/secure-config@2.3.0",
+      "ref": "@tsmx/secure-config@2.3.1",
       "dependsOn": [
         "@tsmx/json-traverse@1.0.8",
         "@tsmx/object-hmac@1.1.5",
