@@ -3,9 +3,9 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "version": 1,
-  "serialNumber": "urn:uuid:d7d9ec09-7b2d-4627-b919-d321db310a69",
+  "serialNumber": "urn:uuid:48f4adce-2579-4dee-b1c0-dce8e55991b2",
   "metadata": {
-    "timestamp": "2025-09-15T20:22:55.134Z",
+    "timestamp": "2025-09-27T19:16:20.161Z",
     "tools": {
       "components": [
         {
@@ -83,8 +83,8 @@
       "type": "application",
       "name": "secure-config",
       "group": "@tsmx",
-      "version": "2.3.1",
-      "bom-ref": "@tsmx/secure-config@2.3.1",
+      "version": "2.4.0",
+      "bom-ref": "@tsmx/secure-config@2.4.0",
       "author": "tsmx",
       "description": "Easy and secure configuration management. JSON based - AES encrypted secrets - HMAC validation - env var export",
       "licenses": [
@@ -95,7 +95,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/secure-config@2.3.1?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
+      "purl": "pkg:npm/%40tsmx/secure-config@2.4.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/secure-config.git",
@@ -281,7 +281,7 @@
   ],
   "dependencies": [
     {
-      "ref": "@tsmx/secure-config@2.3.1",
+      "ref": "@tsmx/secure-config@2.4.0",
       "dependsOn": [
         "@tsmx/json-traverse@1.0.8",
         "@tsmx/object-hmac@1.1.5",
