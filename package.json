@@ -38,12 +38,12 @@
   "author": "tsmx <dev@tsmx.net>",
   "license": "MIT",
   "devDependencies": {
-    "@cyclonedx/cyclonedx-npm": "^3.0.0",
-    "@eslint/js": "^9.8.0",
-    "eslint": "^9.8.0",
-    "eslint-plugin-jest": "^28.8.0",
-    "globals": "^15.9.0",
-    "jest": "^29.7.0"
+    "@cyclonedx/cyclonedx-npm": "^4.1.2",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.1",
+    "eslint-plugin-jest": "^29.15.0",
+    "globals": "^17.3.0",
+    "jest": "^30.2.0"
   },
   "dependencies": {
     "@tsmx/json-traverse": "^1.0.6",
