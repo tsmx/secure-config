@@ -3,21 +3,21 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "version": 1,
-  "serialNumber": "urn:uuid:48f4adce-2579-4dee-b1c0-dce8e55991b2",
+  "serialNumber": "urn:uuid:19dc1488-a0d0-43f5-80ad-7038aa06b5cf",
   "metadata": {
-    "timestamp": "2025-09-27T19:16:20.161Z",
+    "timestamp": "2026-08-13T19:24:01.088Z",
     "tools": {
       "components": [
         {
           "type": "application",
           "name": "npm",
-          "version": "10.9.3"
+          "version": "11.12.0"
         },
         {
           "type": "application",
           "name": "cyclonedx-npm",
           "group": "@cyclonedx",
-          "version": "3.1.0",
+          "version": "6.0.1",
           "author": "Jan Kowalleck",
           "description": "Create CycloneDX Software Bill of Materials (SBOM) from NPM projects.",
           "licenses": [
@@ -49,7 +49,7 @@
           "type": "library",
           "name": "cyclonedx-library",
           "group": "@cyclonedx",
-          "version": "8.6.0",
+          "version": "10.1.0",
           "author": "Jan Kowalleck",
           "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
           "licenses": [
@@ -83,8 +83,8 @@
       "type": "application",
       "name": "secure-config",
       "group": "@tsmx",
-      "version": "2.4.0",
-      "bom-ref": "@tsmx/secure-config@2.4.0",
+      "version": "2.4.1",
+      "bom-ref": "@tsmx/secure-config@2.4.1",
       "author": "tsmx",
       "description": "Easy and secure configuration management. JSON based - AES encrypted secrets - HMAC validation - env var export",
       "licenses": [
@@ -95,7 +95,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/secure-config@2.4.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
+      "purl": "pkg:npm/%40tsmx/secure-config@2.4.1?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/secure-config.git",
@@ -126,8 +126,8 @@
       "type": "library",
       "name": "json-traverse",
       "group": "@tsmx",
-      "version": "1.0.8",
-      "bom-ref": "@tsmx/json-traverse@1.0.8",
+      "version": "1.0.9",
+      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9",
       "author": "tsmx",
       "description": "Traverse and manipulate JSON objects.",
       "licenses": [
@@ -138,7 +138,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/json-traverse@1.0.8",
+      "purl": "pkg:npm/%40tsmx/json-traverse@1.0.9",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/json-traverse.git",
@@ -156,12 +156,12 @@
           "comment": "as detected from PackageJson property \"bugs.url\""
         },
         {
-          "url": "https://registry.npmjs.org/@tsmx/json-traverse/-/json-traverse-1.0.8.tgz",
+          "url": "https://registry.npmjs.org/@tsmx/json-traverse/-/json-traverse-1.0.9.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "addb6af81cd27d15eb02dcf7c4e7c139ae9d73dcb0b310c18d16e84ebaff5d759e61e57bf84477ac2aab122560ba904fbb901482f6d897139c1ffce7d648da8a"
+              "content": "cbafaea5cdfb3a15cd854724ce17dcdf7257d07b7c0399efaeb9594a7d1fe6d4b3bc2cca40cb4ddaae3375d4f5f2f397bdee3c1f05b3a7b7d6ea8b1b3ec26a89"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -178,8 +178,8 @@
       "type": "library",
       "name": "object-hmac",
       "group": "@tsmx",
-      "version": "1.1.5",
-      "bom-ref": "@tsmx/object-hmac@1.1.5",
+      "version": "1.1.6",
+      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
       "author": "tsmx",
       "description": "Create and verify HMAC's for JSON objects",
       "licenses": [
@@ -190,7 +190,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/object-hmac@1.1.5",
+      "purl": "pkg:npm/%40tsmx/object-hmac@1.1.6",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/object-hmac.git",
@@ -208,12 +208,12 @@
           "comment": "as detected from PackageJson property \"bugs.url\""
         },
         {
-          "url": "https://registry.npmjs.org/@tsmx/object-hmac/-/object-hmac-1.1.5.tgz",
+          "url": "https://registry.npmjs.org/@tsmx/object-hmac/-/object-hmac-1.1.6.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "ed8fe65dfb66177df5662e2a4cc56f5c612dcb4212302a621e8599c6af083356ad2ea221b71af6d1019c9ae5526da1856767b0a7f4cfb06ed99d70846c028075"
+              "content": "1a571fb2bcd273120ab1ce35911781651917b59861e01ab8c789d298bb30260ee7dc200c677e8bf5a394fef0470427009cb3c1501fcf3a7814697635c4780f74"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -230,8 +230,8 @@
       "type": "library",
       "name": "string-crypto",
       "group": "@tsmx",
-      "version": "1.0.6",
-      "bom-ref": "@tsmx/string-crypto@1.0.6",
+      "version": "1.0.7",
+      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7",
       "author": "tsmx",
       "description": "Encrypt and decrypt strings.",
       "licenses": [
@@ -242,7 +242,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/string-crypto@1.0.6",
+      "purl": "pkg:npm/%40tsmx/string-crypto@1.0.7",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/string-crypto.git",
@@ -260,12 +260,12 @@
           "comment": "as detected from PackageJson property \"bugs.url\""
         },
         {
-          "url": "https://registry.npmjs.org/@tsmx/string-crypto/-/string-crypto-1.0.6.tgz",
+          "url": "https://registry.npmjs.org/@tsmx/string-crypto/-/string-crypto-1.0.7.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "2ba37d87e647bb1dc5f64d14610f03dab8d0cd8d5021439e1876a8a2be03cd5ab1eae9ca17420e657bc75bb7746946c7264d6f284c26deb2c9069fd5027f5167"
+              "content": "95781c2533a77d1e09e1bf9a46e6c1e493e7a20b6c192a9c8ff8576f5e89f247ab01085058eeb30dfe07f35e0ae59c45c6a8e58b17b8c7aea0a012527addb7e4"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -281,24 +281,24 @@
   ],
   "dependencies": [
     {
-      "ref": "@tsmx/secure-config@2.4.0",
+      "ref": "@tsmx/secure-config@2.4.1",
       "dependsOn": [
-        "@tsmx/json-traverse@1.0.8",
-        "@tsmx/object-hmac@1.1.5",
-        "@tsmx/string-crypto@1.0.6"
+        "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9",
+        "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
+        "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7"
       ]
     },
     {
-      "ref": "@tsmx/json-traverse@1.0.8"
+      "ref": "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9"
     },
     {
-      "ref": "@tsmx/object-hmac@1.1.5",
+      "ref": "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
       "dependsOn": [
-        "@tsmx/json-traverse@1.0.8"
+        "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9"
       ]
     },
     {
-      "ref": "@tsmx/string-crypto@1.0.6"
+      "ref": "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7"
     }
   ]
 }
