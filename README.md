@@ -113,7 +113,8 @@ const confOptions = {
   envVarExports: [
     { key: 'database.user', envVar: 'DB_USER' },
     { key: 'database.password', envVar: 'DB_PASSWORD' }
-  ]
+  ],
+  envVarDenyList: ['HTTP_PROXY']
 }
 
 // CommonJS
@@ -311,6 +312,7 @@ Values in a configuration file can be modified by anyone having write access to 
 - `PATH`, `BASH_ENV`, `ENV`, `IFS`, `SHELL`
 - `PYTHONPATH`, `PYTHONSTARTUP`, `PERL5OPT`, `RUBYOPT`
 - the name of the variable holding the decryption key (see [keyVariable](#keyvariable))
+- any additional names you define via the [envVarDenyList](#envvardenylist) option
 
 The deny-list does not apply to the programmatic `envVarExports` option, as this is controlled by your application code. A deny-list can never be exhaustive, so if you use `__envVarExports` it is strongly recommended to also enable `hmacValidation`, which protects the export list against modification.
 
@@ -319,7 +321,15 @@ The deny-list does not apply to the programmatic `envVarExports` option, as this
 Type: `Array`
 Default: `[]`
 
-Additional environment variable names that must not be set via `__envVarExports` in the configuration, e.g. `['HTTP_PROXY', 'MYAPP_*']`. Names are matched case-insensitively, a trailing `*` matches any name starting with the given prefix. Entries are added to the built-in deny-list, which cannot be reduced.
+Additional environment variable names that must not be set via `__envVarExports` in the configuration. Names are matched case-insensitively, a trailing `*` matches any name starting with the given prefix. Entries are added to the [built-in deny-list](#security-considerations-for-env-var-exports), which cannot be reduced.
+
+```js
+const conf = require('@tsmx/secure-config')({
+  envVarDenyList: ['HTTP_PROXY', 'MYAPP_*']
+});
+```
+
+With the above, a configuration containing `{ "key": "database.host", "envVar": "HTTP_PROXY" }` or `{ "key": "database.host", "envVar": "MYAPP_SECRET" }` in its `__envVarExports` will throw an error and no environment variable is set.
 
 ## Injecting the decryption key
 
