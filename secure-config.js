@@ -111,7 +111,13 @@ function getConfigPath(options) {
 function loadConfigFile(confPath) {
     // read fresh on every call: require() would cache the object and decryption mutates it in place
     const content = fs.readFileSync(confPath, 'utf8');
-    return JSON.parse(content.charCodeAt(0) === 0xFEFF ? content.slice(1) : content);
+    try {
+        return JSON.parse(content.charCodeAt(0) === 0xFEFF ? content.slice(1) : content);
+    }
+    catch (err) {
+        err.message = `${confPath}: ${err.message}`;
+        throw err;
+    }
 }
 
 module.exports = (options) => {

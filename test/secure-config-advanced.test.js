@@ -65,6 +65,21 @@ describe('secure-config adcanced features test suite (v2 features)', () => {
         expect(() => { secureConfig({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
     });
 
+    it('tests that an invalid JSON configuration file error contains the file path', () => {
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+        const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'secure-config-'));
+        try {
+            fs.writeFileSync(path.join(tmpDir, 'config.json'), '{ invalid');
+            process.env['CONFIG_ENCRYPTION_KEY'] = key;
+            expect(() => { require('../secure-config')({ directory: tmpDir }); }).toThrow(path.join(tmpDir, 'config.json'));
+        }
+        finally {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+        }
+    });
+
     it('tests that repeated calls return independent objects, not a shared cached one', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'production';
