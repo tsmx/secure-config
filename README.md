@@ -300,6 +300,26 @@ Notes:
 - If the `envVarExports` array contains multiple entries having the exact same `key`, only the first entry will be considered.
 - If `envVarExports` contains entries that cannot be found in the configuration, no env var will be set and no error will be thrown.
 - If the `envVarExports` option AND the `__envVarExports` configuration key both are present, the programmatic passed array will take precedence.
+- Exports defined via the `__envVarExports` configuration key are subject to a deny-list, see [Security considerations for env var exports](#security-considerations-for-env-var-exports).
+
+#### Security considerations for env var exports
+
+Values in a configuration file can be modified by anyone having write access to the file. Without [HMAC validation](#hmacvalidation), this also applies to the `__envVarExports` key. To prevent a tampered configuration from setting environment variables that influence code execution or the library itself, exports defined via `__envVarExports` are checked against a deny-list (case-insensitive). If a denied name is found, an error is thrown and no env var is set. The deny-list contains:
+
+- `NODE_OPTIONS`, `NODE_PATH`, `NODE_ENV`, `NODE_EXTRA_CA_CERTS`, `NODE_TLS_REJECT_UNAUTHORIZED`
+- `NPM_CONFIG_*`, `LD_*`, `DYLD_*`
+- `PATH`, `BASH_ENV`, `ENV`, `IFS`, `SHELL`
+- `PYTHONPATH`, `PYTHONSTARTUP`, `PERL5OPT`, `RUBYOPT`
+- the name of the variable holding the decryption key (see [keyVariable](#keyvariable))
+
+The deny-list does not apply to the programmatic `envVarExports` option, as this is controlled by your application code. A deny-list can never be exhaustive, so if you use `__envVarExports` it is strongly recommended to also enable `hmacValidation`, which protects the export list against modification.
+
+### envVarDenyList
+
+Type: `Array`
+Default: `[]`
+
+Additional environment variable names that must not be set via `__envVarExports` in the configuration, e.g. `['HTTP_PROXY', 'MYAPP_*']`. Names are matched case-insensitively, a trailing `*` matches any name starting with the given prefix. Entries are added to the built-in deny-list, which cannot be reduced.
 
 ## Injecting the decryption key
 

@@ -12,6 +12,15 @@ const defaultHmacValidation = false;
 const defaultHmacProperty = '__hmac';
 const defaultEnvVarExports = [];
 const defaultEnvVarProperty = '__envVarExports';
+const defaultEnvVarDenyList = [];
+
+// Env vars that must never be set from a __envVarExports list embedded in the configuration file.
+// Entries ending with '*' are prefix matches. Matching is case-insensitive (env var names are on Windows).
+const builtInEnvVarDenyList = [
+    'NODE_OPTIONS', 'NODE_PATH', 'NODE_ENV', 'NODE_EXTRA_CA_CERTS', 'NODE_TLS_REJECT_UNAUTHORIZED',
+    'NPM_CONFIG_*', 'LD_*', 'DYLD_*', 'PATH', 'BASH_ENV', 'ENV', 'IFS', 'SHELL',
+    'PYTHONPATH', 'PYTHONSTARTUP', 'PERL5OPT', 'RUBYOPT'
+];
 
 function getOptValue(options, optName, defaultOptValue) {
     if (options && options[optName]) {
@@ -52,6 +61,25 @@ function decryptConfig(conf, confKey) {
     return conf;
 }
 
+function isEnvVarDenied(envVar, denyList) {
+    const name = envVar.toUpperCase();
+    return denyList.some(entry => {
+        if (typeof entry !== 'string' || entry.length === 0) {
+            return false;
+        }
+        const pattern = entry.toUpperCase();
+        return pattern.endsWith('*') ? name.startsWith(pattern.slice(0, -1)) : name === pattern;
+    });
+}
+
+function validateConfigEnvVarExports(exports, denyList) {
+    exports.forEach(item => {
+        if (item && typeof item.envVar === 'string' && isEnvVarDenied(item.envVar, denyList)) {
+            throw new Error(`Exporting to environment variable ${item.envVar} via ${defaultEnvVarProperty} in the configuration is not allowed.`);
+        }
+    });
+}
+
 function exportEnvVars(conf, exports) {
     const callbacks = {
         processValue: (key, value, level, path) => {
@@ -61,7 +89,7 @@ function exportEnvVars(conf, exports) {
             }
             searchKey += key;
             const exportItem = exports.find(item => item.key === searchKey);
-            if (exportItem && typeof(exportItem.envVar === 'string')) {
+            if (exportItem && typeof exportItem.envVar === 'string' && exportItem.envVar.length > 0) {
                 process.env[exportItem.envVar] = value;
             }
         }
@@ -80,11 +108,18 @@ function getConfigPath(options) {
     return confPath;
 }
 
+function loadConfigFile(confPath) {
+    // read fresh on every call: require() would cache the object and decryption mutates it in place
+    const content = fs.readFileSync(confPath, 'utf8');
+    return JSON.parse(content.charCodeAt(0) === 0xFEFF ? content.slice(1) : content);
+}
+
 module.exports = (options) => {
     // load the configuration JSON
-    let conf = require(getConfigPath(options));
+    let conf = loadConfigFile(getConfigPath(options));
     // get the key and decrypt
-    const key = getKey(getOptValue(options, 'keyVariable', defaultKeyVariableName));
+    const keyVariableName = getOptValue(options, 'keyVariable', defaultKeyVariableName);
+    const key = getKey(keyVariableName);
     decryptConfig(conf, key);
     // validate HMAC 
     if (getOptValue(options, 'hmacValidation', defaultHmacValidation)) {
@@ -96,6 +131,15 @@ module.exports = (options) => {
     let exports = getOptValue(options, 'envVarExports', defaultEnvVarExports);
     if(!Array.isArray(exports) || exports.length == 0) {
         exports = conf[defaultEnvVarProperty];
+        // exports defined in the configuration file are untrusted unless HMAC-validated, so apply the deny-list
+        if (Array.isArray(exports)) {
+            const extraDenied = getOptValue(options, 'envVarDenyList', defaultEnvVarDenyList);
+            validateConfigEnvVarExports(exports, [
+                ...builtInEnvVarDenyList,
+                keyVariableName,
+                ...(Array.isArray(extraDenied) ? extraDenied : [])
+            ]);
+        }
     }
     if (Array.isArray(exports) && exports.length > 0) {
         exportEnvVars(conf, exports);

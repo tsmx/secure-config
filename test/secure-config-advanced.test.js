@@ -57,4 +57,23 @@ describe('secure-config adcanced features test suite (v2 features)', () => {
         expect(() => { require('../secure-config')({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
     });
 
+    it('tests that a failed HMAC validation does not leave a tampered config behind for later calls', () => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
+        process.env['NODE_ENV'] = 'production-hmacerror';
+        const secureConfig = require('../secure-config');
+        expect(() => { secureConfig({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
+        expect(() => { secureConfig({ hmacValidation: true }); }).toThrow('HMAC validation failed.');
+    });
+
+    it('tests that repeated calls return independent objects, not a shared cached one', () => {
+        process.env['CONFIG_ENCRYPTION_KEY'] = key;
+        process.env['NODE_ENV'] = 'production';
+        const secureConfig = require('../secure-config');
+        const conf1 = secureConfig();
+        conf1.database.user = 'modified';
+        const conf2 = secureConfig();
+        expect(conf2).not.toBe(conf1);
+        expect(conf2.database.user).toBe('SecretUser-Prod');
+    });
+
 });

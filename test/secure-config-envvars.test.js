@@ -99,4 +99,85 @@ describe('secure-config environment variables setting test suite', () => {
         expect(process.env['DB_USER_2']).toBeUndefined();
     });
 
+    describe('deny-list for exports defined in the configuration', () => {
+
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+        let tmpDir;
+
+        function loadWithConfigExports(envVarExports, options = {}) {
+            jest.resetModules();
+            fs.writeFileSync(path.join(tmpDir, 'config.json'), JSON.stringify({
+                database: { host: 'db.test.com', user: 'plainuser' },
+                __envVarExports: envVarExports
+            }));
+            process.env['CONFIG_ENCRYPTION_KEY'] = key;
+            return require('../secure-config')({ directory: tmpDir, ...options });
+        }
+
+        beforeEach(() => {
+            tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'secure-config-'));
+        });
+
+        afterEach(() => {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+        });
+
+        it.each([
+            'NODE_OPTIONS', 'node_options', 'NODE_ENV', 'NODE_PATH', 'PATH', 'LD_PRELOAD', 'ld_library_path',
+            'DYLD_INSERT_LIBRARIES', 'NPM_CONFIG_REGISTRY', 'CONFIG_ENCRYPTION_KEY', 'config_encryption_key'
+        ])('rejects the denied env var %s in a configuration export', (envVar) => {
+            process.env['CONFIG_ENCRYPTION_KEY'] = key;
+            const original = process.env[envVar];
+            expect(() => loadWithConfigExports([{ key: 'database.host', envVar }])).toThrow('is not allowed');
+            expect(process.env[envVar]).toEqual(original);
+        });
+
+        it('rejects the custom key variable name in a configuration export', () => {
+            process.env['CUSTOM_CONFIG_KEY'] = key;
+            fs.writeFileSync(path.join(tmpDir, 'config.json'), JSON.stringify({
+                database: { host: 'db.test.com' },
+                __envVarExports: [{ key: 'database.host', envVar: 'CUSTOM_CONFIG_KEY' }]
+            }));
+            expect(() => require('../secure-config')({ directory: tmpDir, keyVariable: 'CUSTOM_CONFIG_KEY' })).toThrow('is not allowed');
+            expect(process.env['CUSTOM_CONFIG_KEY']).toEqual(key);
+        });
+
+        it('rejects a denied env var even if its key is not present in the configuration', () => {
+            expect(() => loadWithConfigExports([{ key: 'does.not.exist', envVar: 'NODE_OPTIONS' }])).toThrow('is not allowed');
+        });
+
+        it('rejects additional names passed via envVarDenyList, exact and with prefix', () => {
+            expect(() => loadWithConfigExports([{ key: 'database.host', envVar: 'HTTP_PROXY' }], { envVarDenyList: ['http_proxy'] })).toThrow('is not allowed');
+            expect(() => loadWithConfigExports([{ key: 'database.host', envVar: 'MYAPP_SECRET' }], { envVarDenyList: ['MYAPP_*'] })).toThrow('is not allowed');
+            expect(process.env['HTTP_PROXY']).not.toEqual('db.test.com');
+            expect(process.env['MYAPP_SECRET']).toBeUndefined();
+        });
+
+        it('still allows non-denied names via configuration, also with envVarDenyList set', () => {
+            const conf = loadWithConfigExports([{ key: 'database.user', envVar: 'DB_USER' }], { envVarDenyList: ['HTTP_PROXY'] });
+            expect(conf.database.user).toEqual('plainuser');
+            expect(process.env['DB_USER']).toEqual('plainuser');
+        });
+
+        it('does not apply the deny-list to programmatically passed exports', () => {
+            const original = process.env['HTTP_PROXY'];
+            try {
+                loadWithConfigExports([], { envVarExports: [{ key: 'database.host', envVar: 'HTTP_PROXY' }], envVarDenyList: ['HTTP_PROXY'] });
+                expect(process.env['HTTP_PROXY']).toEqual('db.test.com');
+            }
+            finally {
+                if (original === undefined) { delete process.env['HTTP_PROXY']; } else { process.env['HTTP_PROXY'] = original; }
+            }
+        });
+
+        it('ignores configuration exports with a non-string envVar instead of setting a bogus variable', () => {
+            loadWithConfigExports([{ key: 'database.host', envVar: { a: 1 } }, { key: 'database.host' }]);
+            expect(process.env['[object Object]']).toBeUndefined();
+            expect(process.env['undefined']).toBeUndefined();
+        });
+
+    });
+
 });
