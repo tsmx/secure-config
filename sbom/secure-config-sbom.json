@@ -3,15 +3,15 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
   "version": 1,
-  "serialNumber": "urn:uuid:19dc1488-a0d0-43f5-80ad-7038aa06b5cf",
+  "serialNumber": "urn:uuid:260941a4-320c-4ba5-b9c1-ad339356ae39",
   "metadata": {
-    "timestamp": "2026-08-13T19:24:01.088Z",
+    "timestamp": "2026-11-09T20:15:38.275Z",
     "tools": {
       "components": [
         {
           "type": "application",
           "name": "npm",
-          "version": "11.12.0"
+          "version": "11.21.1"
         },
         {
           "type": "application",
@@ -43,13 +43,23 @@
               "type": "issue-tracker",
               "comment": "as detected from PackageJson property \"bugs.url\""
             }
+          ],
+          "properties": [
+            {
+              "name": "cdx:npm:package:constraint:engine:node",
+              "value": ">=20.18.0"
+            },
+            {
+              "name": "cdx:npm:package:constraint:engine:npm",
+              "value": ">=9"
+            }
           ]
         },
         {
           "type": "library",
           "name": "cyclonedx-library",
           "group": "@cyclonedx",
-          "version": "10.1.0",
+          "version": "10.5.0",
           "author": "Jan Kowalleck",
           "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
           "licenses": [
@@ -75,6 +85,12 @@
               "type": "issue-tracker",
               "comment": "as detected from PackageJson property \"bugs.url\""
             }
+          ],
+          "properties": [
+            {
+              "name": "cdx:npm:package:constraint:engine:node",
+              "value": ">=20.18.0"
+            }
           ]
         }
       ]
@@ -83,8 +99,8 @@
       "type": "application",
       "name": "secure-config",
       "group": "@tsmx",
-      "version": "2.4.1",
-      "bom-ref": "@tsmx/secure-config@2.4.1",
+      "version": "2.5.0",
+      "bom-ref": "@tsmx/secure-config@2.5.0",
       "author": "tsmx",
       "description": "Easy and secure configuration management. JSON based - AES encrypted secrets - HMAC validation - env var export",
       "licenses": [
@@ -95,7 +111,7 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40tsmx/secure-config@2.4.1?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
+      "purl": "pkg:npm/%40tsmx/secure-config@2.5.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Ftsmx%2Fsecure-config.git",
       "externalReferences": [
         {
           "url": "git+https://github.com/tsmx/secure-config.git",
@@ -115,6 +131,14 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:constraint:engine:node",
+          "value": ">=12.0.0"
+        },
+        {
+          "name": "cdx:npm:package:constraint:engine:npm",
+          "value": ">=6.0.0"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": ""
         }
@@ -127,7 +151,7 @@
       "name": "json-traverse",
       "group": "@tsmx",
       "version": "1.0.9",
-      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9",
+      "bom-ref": "@tsmx/secure-config@2.5.0|@tsmx/json-traverse@1.0.9",
       "author": "tsmx",
       "description": "Traverse and manipulate JSON objects.",
       "licenses": [
@@ -169,6 +193,14 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:constraint:engine:node",
+          "value": ">=10.0.0"
+        },
+        {
+          "name": "cdx:npm:package:constraint:engine:npm",
+          "value": ">=6.0.0"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@tsmx/json-traverse"
         }
@@ -179,7 +211,7 @@
       "name": "object-hmac",
       "group": "@tsmx",
       "version": "1.1.6",
-      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
+      "bom-ref": "@tsmx/secure-config@2.5.0|@tsmx/object-hmac@1.1.6",
       "author": "tsmx",
       "description": "Create and verify HMAC's for JSON objects",
       "licenses": [
@@ -221,6 +253,14 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:constraint:engine:node",
+          "value": ">=12.0.0"
+        },
+        {
+          "name": "cdx:npm:package:constraint:engine:npm",
+          "value": ">=6.0.0"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@tsmx/object-hmac"
         }
@@ -231,7 +271,7 @@
       "name": "string-crypto",
       "group": "@tsmx",
       "version": "1.0.7",
-      "bom-ref": "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7",
+      "bom-ref": "@tsmx/secure-config@2.5.0|@tsmx/string-crypto@1.0.7",
       "author": "tsmx",
       "description": "Encrypt and decrypt strings.",
       "licenses": [
@@ -273,6 +313,14 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:constraint:engine:node",
+          "value": ">=10.0.0"
+        },
+        {
+          "name": "cdx:npm:package:constraint:engine:npm",
+          "value": ">=6.0.0"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@tsmx/string-crypto"
         }
@@ -281,24 +329,24 @@
   ],
   "dependencies": [
     {
-      "ref": "@tsmx/secure-config@2.4.1",
+      "ref": "@tsmx/secure-config@2.5.0",
       "dependsOn": [
-        "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9",
-        "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
-        "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7"
+        "@tsmx/secure-config@2.5.0|@tsmx/json-traverse@1.0.9",
+        "@tsmx/secure-config@2.5.0|@tsmx/object-hmac@1.1.6",
+        "@tsmx/secure-config@2.5.0|@tsmx/string-crypto@1.0.7"
       ]
     },
     {
-      "ref": "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9"
+      "ref": "@tsmx/secure-config@2.5.0|@tsmx/json-traverse@1.0.9"
     },
     {
-      "ref": "@tsmx/secure-config@2.4.1|@tsmx/object-hmac@1.1.6",
+      "ref": "@tsmx/secure-config@2.5.0|@tsmx/object-hmac@1.1.6",
       "dependsOn": [
-        "@tsmx/secure-config@2.4.1|@tsmx/json-traverse@1.0.9"
+        "@tsmx/secure-config@2.5.0|@tsmx/json-traverse@1.0.9"
       ]
     },
     {
-      "ref": "@tsmx/secure-config@2.4.1|@tsmx/string-crypto@1.0.7"
+      "ref": "@tsmx/secure-config@2.5.0|@tsmx/string-crypto@1.0.7"
     }
   ]
 }
