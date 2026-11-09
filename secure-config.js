@@ -33,7 +33,7 @@ function getOptValue(options, optName, defaultOptValue) {
 
 function getKey(keyVariableName) {
     const hexReg = new RegExp('^[0-9A-F]{64}$', 'i');
-    let result = null;
+    let result;
     if (!process.env[keyVariableName]) {
         throw new Error(`Environment variable ${keyVariableName} not set.`);
     }

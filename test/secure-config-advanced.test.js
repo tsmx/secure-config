@@ -80,6 +80,22 @@ describe('secure-config adcanced features test suite (v2 features)', () => {
         }
     });
 
+    it('tests that a configuration file with a UTF-8 BOM is parsed correctly', () => {
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+        const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'secure-config-'));
+        try {
+            fs.writeFileSync(path.join(tmpDir, 'config.json'), '\uFEFF' + JSON.stringify({ value: 'plainvalue' }));
+            process.env['CONFIG_ENCRYPTION_KEY'] = key;
+            const conf = require('../secure-config')({ directory: tmpDir });
+            expect(conf.value).toEqual('plainvalue');
+        }
+        finally {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+        }
+    });
+
     it('tests that repeated calls return independent objects, not a shared cached one', () => {
         process.env['CONFIG_ENCRYPTION_KEY'] = key;
         process.env['NODE_ENV'] = 'production';

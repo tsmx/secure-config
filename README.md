@@ -444,3 +444,7 @@ This package ships with a CycloneDX software bill of materials (SBOM) v1.6 in JS
 
 ### 2.4.0
 - Setting of [environment variables](#envVarExports) added.
+
+### 2.5.0
+- Security hardening: `__envVarExports` are now checked against a built-in [deny-list](#security-considerations-for-env-var-exports) to prevent misuse. Additional rejected vars via new option [envVarDenyList](#envvardenylist); programmatic [envVarExports](#envvarexports) are not affected.
+- Explicit configuration reading & parsing instead of `require()`: preventing cached configuration objects from being shared and mutated across multiple calls, also after a failed [hmacValidation](#hmacvalidation). JSON parse errors now include the file path.

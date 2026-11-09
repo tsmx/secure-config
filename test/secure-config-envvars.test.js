@@ -178,6 +178,28 @@ describe('secure-config environment variables setting test suite', () => {
             expect(process.env['undefined']).toBeUndefined();
         });
 
+        it('tolerates non-string and empty entries in envVarDenyList', () => {
+            const conf = loadWithConfigExports(
+                [{ key: 'database.user', envVar: 'DB_USER' }],
+                { envVarDenyList: [42, '', ['nested'], 'HTTP_PROXY'] }
+            );
+            expect(conf.database.user).toEqual('plainuser');
+            expect(process.env['DB_USER']).toEqual('plainuser');
+        });
+
+        it('still rejects denied env vars when envVarDenyList contains invalid entries', () => {
+            expect(() =>
+                loadWithConfigExports([{ key: 'database.host', envVar: 'HTTP_PROXY' }], { envVarDenyList: [42, '', 'http_proxy'] })
+            ).toThrow('is not allowed');
+        });
+
+        it('treats a non-array envVarDenyList as absent, enforcing only the built-in list', () => {
+            const conf = loadWithConfigExports([{ key: 'database.user', envVar: 'DB_USER' }], { envVarDenyList: 'HTTP_PROXY' });
+            expect(conf.database.user).toEqual('plainuser');
+            expect(process.env['DB_USER']).toEqual('plainuser');
+            expect(() => loadWithConfigExports([{ key: 'database.host', envVar: 'NODE_OPTIONS' }], { envVarDenyList: 'HTTP_PROXY' })).toThrow('is not allowed');
+        });
+
     });
 
 });
